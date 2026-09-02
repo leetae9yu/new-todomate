@@ -1,0 +1,128 @@
+/* Category groups & task rows */
+.feed-groups {
+	display: grid;
+	gap: var(--space-6);
+	margin-top: var(--space-4);
+}
+
+.feed-group {
+	display: grid;
+	gap: var(--space-1);
+	align-content: start;
+}
+
+.tasklist {
+	display: grid;
+	gap: 2px;
+}
+
+.task {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	padding: var(--space-2) var(--space-1);
+	border-radius: var(--radius-sm);
+	transition: background var(--speed-fast);
+}
+
+.task:hover {
+	background: var(--bg-alt);
+}
+
+.task__label {
+	flex: 1;
+	font: var(--text-task);
+	color: var(--ink-soft);
+	transition: color var(--speed-fast);
+}
+
+.task--done .task__label {
+	color: var(--muted);
+}
+
+.task__menu {
+	display: inline-flex;
+	opacity: 0;
+	transition: opacity var(--speed-fast);
+}
+
+.task:hover .task__menu,
+.task__menu--open {
+	opacity: 1;
+}
+
+.task__menu button svg {
+	width: 16px;
+	height: 16px;
+}
+
+.task__menu button {
+	color: var(--muted);
+}
+
+/* Inline add/edit */
+.task-inline {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	padding: var(--space-1) 0;
+}
+
+.task-inline input {
+	flex: 1;
+	padding: var(--space-2) var(--space-3);
+	border: 1.5px solid var(--violet);
+	border-radius: var(--radius-sm);
+	font: var(--text-task);
+}
+
+.task-inline .squircle {
+	opacity: 0.5;
+}
+
+/* Overdue */
+.overdue {
+	margin-top: var(--space-4);
+	padding: var(--space-4);
+	border-radius: var(--radius-lg);
+	background: var(--bg-alt);
+	border: 1px dashed var(--line);
+}
+
+.overdue h3 {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	margin: 0 0 var(--space-2);
+	font: var(--text-label);
+	color: var(--muted);
+}
+
+.overdue h3 svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* Two-pane planner layout on wide screens */
+.home__grid {
+	display: grid;
+	gap: var(--space-6);
+}
+
+.home__grid .home__month {
+	display: none;
+}
+
+@media (min-width: 1024px) {
+	.home__grid {
+		grid-template-columns: 360px minmax(0, 1fr);
+		align-items: start;
+	}
+
+	.home__grid .home__month {
+		display: block;
+		position: sticky;
+		top: 88px;
+	}
+}

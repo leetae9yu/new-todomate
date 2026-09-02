@@ -1,0 +1,38 @@
+bun test v1.3.14 (0d9b296a)
+
+tests/social.integration.test.ts:
+17 | 	test("shares only group-visible completed work and protects owner mutations", async () => {
+18 | 		const groupResponse = await harness.demo("/api/groups", {
+19 | 			method: "POST",
+20 | 			body: { name: "함께 하는 계획" },
+21 | 		});
+22 | 		expect(groupResponse.status).toBe(201);
+                                    ^
+error: expect(received).toBe(expected)
+
+Expected: 201
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/social.integration.test.ts:22:32)
+(fail) private group social API > shares only group-visible completed work and protects owner mutations [4.84ms]
+133 | 	test("reads and updates the signed-in profile and settings", async () => {
+134 | 		const profile = await harness.friend("/api/profile", {
+135 | 			method: "PATCH",
+136 | 			body: { name: "새 친구", image: "https://example.test/friend.png" },
+137 | 		});
+138 | 		expect(profile.status).toBe(200);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/social.integration.test.ts:138:26)
+(fail) private group social API > reads and updates the signed-in profile and settings [0.64ms]
+
+ 0 pass
+ 2 fail
+ 2 expect() calls
+Ran 2 tests across 1 file. [3.97s]
+
+EXIT_CODE=1

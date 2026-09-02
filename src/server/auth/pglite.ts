@@ -4,8 +4,14 @@ import { mkdir } from "node:fs/promises";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/pglite";
 import { AUTH_MIGRATION_SQL } from "../db/auth-migration";
+import { PLANNER_MIGRATION_SQL } from "../db/planner-migration";
+import { SOCIAL_MIGRATION_SQL } from "../db/social-migration";
 import * as schema from "../db/schema";
-import { accountStatusSchema, createAuthRuntime } from "./runtime";
+import {
+	accountStatusSchema,
+	createAuthRuntime,
+	type PlannerQueryParameter,
+} from "./runtime";
 
 type CreatePgliteRuntimeOptions = {
 	baseURL: string;
@@ -24,6 +30,8 @@ export async function createPgliteAuthRuntime({
 
 	const client = dataDirectory ? new PGlite(dataDirectory) : new PGlite();
 	await client.exec(AUTH_MIGRATION_SQL);
+	await client.exec(PLANNER_MIGRATION_SQL);
+	await client.exec(SOCIAL_MIGRATION_SQL);
 
 	const database = drizzle(client, { schema });
 	const runtime = createAuthRuntime({
@@ -31,6 +39,12 @@ export async function createPgliteAuthRuntime({
 		secret,
 		store: {
 			adapterDatabase: database as unknown as DB,
+			planner: {
+				query: async <T extends Record<string, unknown>>(
+					statement: string,
+					parameters: PlannerQueryParameter[] = [],
+				) => (await client.query<T>(statement, parameters)).rows,
+			},
 			findByUsername: async (accountUsername) => {
 				const [record] = await database
 					.select({

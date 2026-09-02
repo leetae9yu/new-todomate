@@ -1,0 +1,42 @@
+$ bun test tests/planner.integration.test.ts tests/planner-extended.integration.test.ts && bun run typecheck && bun run lint
+bun test v1.3.14 (0d9b296a)
+
+tests/planner.integration.test.ts:
+(pass) personal planner API > creates categories and manages a dated todo lifecycle [118.56ms]
+(pass) personal planner API > keeps local dates exact and surfaces previous incomplete tasks [58.66ms]
+(pass) personal planner API > materializes daily, weekday, and monthly routines independently [120.04ms]
+
+tests/planner-extended.integration.test.ts:
+(pass) extended personal planning tools > moves undated backlog work onto the calendar [54.03ms]
+(pass) extended personal planning tools > tracks one active task timer without sleeps [34.45ms]
+(pass) extended personal planning tools > upserts one mood diary per local date [26.17ms]
+(pass) extended personal planning tools > aggregates category completion statistics [35.78ms]
+
+ 7 pass
+ 0 fail
+ 47 expect() calls
+Ran 7 tests across 2 files. [6.71s]
+$ tsc --noEmit
+$ biome lint .
+Checked 39 files in 24ms. No fixes applied.
+
+$ find src/server drizzle -type f \( -name '*.ts' -o -name '*.sql' \) -print0 | xargs -0 wc -l | sort -nr
+ 1329 total
+  195 src/server/db/schema.ts
+  109 src/server/auth/runtime.ts
+  105 src/server/planner/tool-routes.ts
+  101 src/server/planner/task-routes.ts
+   86 src/server/app.ts
+   81 src/server/auth/pglite.ts
+   79 src/server/planner/validation.ts
+   73 src/server/planner/shared.ts
+   72 src/server/planner/planner-routes.ts
+   67 src/server/planner/routine-routes.ts
+   67 src/server/auth/neon.ts
+   64 drizzle/0000_auth.sql
+   62 drizzle/0001_planner.sql
+   60 src/server/db/planner-migration.ts
+   60 src/server/db/auth-migration.ts
+   32 src/server/dev.ts
+   13 src/server/planner/index.ts
+    3 src/server/index.ts

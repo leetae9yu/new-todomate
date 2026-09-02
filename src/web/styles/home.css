@@ -1,0 +1,130 @@
+/* ==========================================================================
+   Home / Today feed
+   ========================================================================== */
+
+.profile {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+}
+
+.profile__text strong {
+	font: var(--text-name);
+}
+
+.profile__text p {
+	margin: 0;
+	color: var(--muted);
+	font: var(--text-meta);
+}
+
+.date-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-4);
+	margin: var(--space-4) 0 var(--space-3);
+}
+
+.date-head__title {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+}
+
+.date-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: var(--radius-pill);
+	background: linear-gradient(135deg, var(--violet) 50%, var(--blue) 50%);
+	color: var(--ink-inverse);
+	font: var(--text-label);
+	font-size: 0.6875rem;
+}
+
+.date-head h2 {
+	margin: 0;
+	font: var(--text-title);
+}
+
+.date-head__controls {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.date-head__controls .icon-btn svg {
+	width: 18px;
+	height: 18px;
+}
+
+/* Week strip */
+.week-strip {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: var(--space-1);
+}
+
+.week-strip__day {
+	display: grid;
+	justify-items: center;
+	gap: var(--space-1);
+	padding: var(--space-2) 0;
+	border-radius: var(--radius-sm);
+	transition: background var(--speed-fast);
+}
+
+.week-strip__day:hover {
+	background: var(--surface);
+}
+
+.week-strip__weekday {
+	font: var(--text-caption);
+	color: var(--muted);
+}
+
+.week-strip__cloud {
+	width: 24px;
+	height: 24px;
+	color: var(--line);
+	transition:
+		transform var(--speed-fast) var(--ease-pop),
+		color var(--speed-fast);
+}
+
+.week-strip__day--done .week-strip__cloud {
+	color: var(--cat-color, var(--violet));
+}
+
+.week-strip__day:hover .week-strip__cloud {
+	transform: scale(1.12);
+}
+
+.week-strip__num {
+	font: var(--text-meta);
+	font-weight: 700;
+}
+
+.week-strip__num--today {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	border-radius: var(--radius-pill);
+	background: var(--ink);
+	color: var(--ink-inverse);
+}
+
+.week-strip__weekday--sun,
+.week-strip__num--sun {
+	color: var(--sunday);
+}
+
+.week-strip__weekday--sat,
+.week-strip__num--sat {
+	color: var(--saturday);
+}

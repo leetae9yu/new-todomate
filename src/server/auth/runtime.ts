@@ -13,8 +13,18 @@ type AccountStatusRecord = {
 	status: AccountStatus;
 };
 
+export type PlannerQueryParameter = boolean | null | number | string;
+
+export type PlannerStore = {
+	query: <T extends Record<string, unknown>>(
+		statement: string,
+		parameters?: PlannerQueryParameter[],
+	) => Promise<T[]>;
+};
+
 export type AuthAccountStore = {
 	adapterDatabase: DB;
+	planner: PlannerStore;
 	findByUsername: (username: string) => Promise<AccountStatusRecord | null>;
 	setStatus: (username: string, status: AccountStatus) => Promise<void>;
 };
@@ -78,6 +88,7 @@ export function createAuthRuntime({ baseURL, secret, store }: CreateAuthRuntimeO
 	return {
 		handler: (request: Request) => auth.handler(request),
 		getSession: (headers: Headers) => auth.api.getSession({ headers }),
+		planner: store.planner,
 		findByUsername: store.findByUsername,
 		seedAccount: async ({ username: accountUsername, password, name, status }: SeedAccountInput) => {
 			await auth.api.signUpEmail({

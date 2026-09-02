@@ -1,0 +1,88 @@
+/* ==========================================================================
+   Routines
+   ========================================================================== */
+
+.routines {
+	display: grid;
+	gap: var(--space-6);
+}
+
+.routine-item {
+	display: grid;
+	gap: var(--space-1);
+	padding: var(--space-3) var(--space-1);
+	border-bottom: 1px solid var(--surface);
+}
+
+.routine-item__title {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	font: var(--text-task);
+	font-weight: 700;
+}
+
+.routine-item__tag {
+	font: var(--text-meta);
+	font-weight: 800;
+	color: var(--blue);
+	font-size: 0.6875rem;
+}
+
+.routine-item select {
+	font: var(--text-task);
+	font-weight: 700;
+	border: none;
+}
+
+.routine-item__meta {
+	font: var(--text-meta);
+	color: var(--muted);
+}
+
+.routine-item__actions {
+	justify-self: end;
+}
+
+/* Frequencies & editors inside routines/forms */
+.routine-form {
+	display: grid;
+	gap: var(--space-3);
+	padding: var(--space-4);
+	border-radius: var(--radius-md);
+	background: var(--bg-alt);
+	border: 1px solid var(--surface);
+}
+
+.routine-form__freq {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.routine-days {
+	display: flex;
+	gap: var(--space-1);
+	flex-wrap: wrap;
+}
+
+.routine-days button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	border-radius: var(--radius-sm);
+	background: var(--surface);
+	font: var(--text-meta);
+	font-weight: 700;
+	transition: background var(--speed-fast);
+}
+
+.routine-days button.is-on {
+	background: var(--cat-color, var(--violet));
+	color: var(--ink-inverse);
+	box-shadow:
+		0 0 0 2px var(--bg),
+		0 0 0 4px var(--ink);
+}

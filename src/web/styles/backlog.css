@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Backlog
+   ========================================================================== */
+
+.backlog {
+	display: grid;
+	gap: var(--space-6);
+}
+
+.backlog__hint {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	font: var(--text-meta);
+	color: var(--muted);
+}
+
+.backlog__hint svg {
+	width: 16px;
+	height: 16px;
+}

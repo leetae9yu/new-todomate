@@ -1,0 +1,19 @@
+Command: bun test tests/social.integration.test.ts
+
+GREEN:
+- private group create/invite/accept/member promotion: PASS
+- owner-only task hidden from group feed: PASS
+- cross-user task mutation returns 404: PASS
+- reactions rejected before completion: PASS
+- completed-task reaction create/update/remove: PASS
+- reaction notification deep link and read state: PASS
+- profile and settings read/update: PASS
+
+2 tests passed, 0 failed, 32 assertions.
+
+Supporting gates:
+- bun run typecheck: exit 0
+- bun run lint: checked 100 files, no diagnostics
+- bun run build: exit 0
+- src/server/social LSP diagnostics: 0 errors
+- auth and planner regression suites remain green

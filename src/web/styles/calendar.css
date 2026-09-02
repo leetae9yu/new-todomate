@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Calendar (month) — task chips + diary thumbs
+   ========================================================================== */
+
+.calendar {
+	display: grid;
+	gap: var(--space-4);
+}
+
+.calendar__grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: var(--space-2);
+}
+
+.calendar__head {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: var(--space-2);
+	margin-bottom: var(--space-2);
+}
+
+.calendar__head span {
+	text-align: center;
+	font: var(--text-caption);
+	color: var(--muted);
+}
+
+.calendar__head span:first-child {
+	color: var(--sunday);
+}
+
+.calendar__head span:last-child {
+	color: var(--saturday);
+}
+
+.calendar__day {
+	min-height: 72px;
+	padding: var(--space-1);
+	border-radius: var(--radius-sm);
+	text-align: center;
+	transition: background var(--speed-fast);
+	display: block;
+	width: 100%;
+}
+
+.calendar__day:hover {
+	background: var(--surface);
+}
+
+.calendar__day--selected {
+	background: var(--bg-alt);
+	box-shadow: inset 0 0 0 1.5px var(--violet);
+}
+
+.calendar__num {
+	font: var(--text-meta);
+	font-weight: 700;
+	margin-bottom: 2px;
+}
+
+.calendar__num--today {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	border-radius: var(--radius-pill);
+	background: var(--ink);
+	color: var(--ink-inverse);
+}
+
+.calendar__num--sun {
+	color: var(--sunday);
+}
+
+.calendar__num--sat {
+	color: var(--saturday);
+}
+
+.calendar__num--other {
+	color: var(--line);
+}
+
+.calendar__chips {
+	display: grid;
+	gap: 2px;
+}
+
+.task-chip {
+	display: block;
+	padding: 1px var(--space-1);
+	border-radius: var(--radius-sm);
+	background: var(--cat-color, var(--ink));
+	color: var(--ink-inverse);
+	font-size: 0.625rem;
+	font-weight: 700;
+	line-height: 1.5;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.calendar__more {
+	font-size: 0.625rem;
+	font-weight: 700;
+	color: var(--muted);
+}
+
+.calendar__moji {
+	font-size: 1rem;
+	line-height: 1.1;
+}

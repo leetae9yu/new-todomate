@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Stats — dot matrix
+   ========================================================================== */
+
+.stats {
+	display: grid;
+	gap: var(--space-5);
+}
+
+.stats__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+	.stats__grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.stat-card {
+	padding: var(--space-4);
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--surface);
+	display: grid;
+	gap: var(--space-3);
+}
+
+.stat-card h3 {
+	margin: 0;
+	font: var(--text-label);
+	color: var(--cat-color, var(--ink));
+}
+
+.dot-matrix {
+	display: grid;
+	grid-template-columns: repeat(7, 12px);
+	gap: 4px;
+	justify-content: start;
+}
+
+.dot-matrix span {
+	width: 10px;
+	height: 10px;
+	border-radius: var(--radius-pill);
+	background: var(--cat-color, var(--violet));
+	transition: transform var(--speed-fast) var(--ease-pop);
+}
+
+.dot-matrix span:hover {
+	transform: scale(1.25);
+}
+
+.dot-matrix span.dot-matrix__empty {
+	background: var(--line);
+}
+
+.stat-card__rate {
+	font: var(--text-meta);
+	color: var(--muted);
+}

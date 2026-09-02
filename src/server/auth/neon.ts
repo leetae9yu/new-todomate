@@ -3,7 +3,11 @@ import { neon } from "@neondatabase/serverless";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "../db/schema";
-import { accountStatusSchema, createAuthRuntime } from "./runtime";
+import {
+	accountStatusSchema,
+	createAuthRuntime,
+	type PlannerQueryParameter,
+} from "./runtime";
 
 type CreateNeonRuntimeOptions = {
 	baseURL: string;
@@ -24,6 +28,12 @@ export function createNeonAuthRuntime({
 		secret,
 		store: {
 			adapterDatabase: database as unknown as DB,
+			planner: {
+				query: async <T extends Record<string, unknown>>(
+					statement: string,
+					parameters: PlannerQueryParameter[] = [],
+				) => client.query(statement, parameters) as Promise<T[]>,
+			},
 			findByUsername: async (accountUsername) => {
 				const [record] = await database
 					.select({

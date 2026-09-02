@@ -1,32 +1,31 @@
-import { useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { LoginScreen } from "./components/login";
+import { Splash } from "./components/splash";
+import { useSession } from "./hooks/planner";
+import { PlannerShell } from "./planner-shell";
 
-type HealthState = "checking" | "ready" | "offline";
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: { retry: 1 },
+	},
+});
+
+function PlannerGate() {
+	const session = useSession();
+
+	if (session.isLoading) {
+		return <Splash />;
+	}
+	if (!session.data) {
+		return <LoginScreen />;
+	}
+	return <PlannerShell username={session.data.user.name} />;
+}
 
 export function App() {
-	const [health, setHealth] = useState<HealthState>("checking");
-
-	useEffect(() => {
-		const controller = new AbortController();
-
-		fetch("/api/health", { signal: controller.signal })
-			.then((response) => {
-				setHealth(response.ok ? "ready" : "offline");
-			})
-			.catch(() => {
-				if (!controller.signal.aborted) {
-					setHealth("offline");
-				}
-			});
-
-		return () => controller.abort();
-	}, []);
-
 	return (
-		<main className="bootstrap-shell">
-			<p className="eyebrow">PRIVATE BETA</p>
-			<h1>new todomate</h1>
-			<p>친구들과 오늘 할 일을 나누는 공간을 준비하고 있어요.</p>
-			<span className={`health health--${health}`}>API {health}</span>
-		</main>
+		<QueryClientProvider client={queryClient}>
+			<PlannerGate />
+		</QueryClientProvider>
 	);
 }

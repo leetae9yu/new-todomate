@@ -1,0 +1,155 @@
+/* ==========================================================================
+   Shared primitives
+   ========================================================================== */
+
+.icon-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--radius-pill);
+	color: var(--ink);
+	transition: background var(--speed-fast);
+}
+
+.icon-btn:hover {
+	background: var(--surface);
+}
+
+.icon-btn svg {
+	width: 22px;
+	height: 22px;
+}
+
+.btn-primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2);
+	padding: var(--space-3) var(--space-5);
+	border-radius: var(--radius-md);
+	background: var(--ink);
+	color: var(--ink-inverse);
+	font: var(--text-label);
+	transition:
+		transform var(--speed-fast) var(--ease-pop),
+		opacity var(--speed-fast);
+}
+
+.btn-primary:hover {
+	transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+	transform: none;
+}
+
+.btn-ghost {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2);
+	padding: var(--space-2) var(--space-4);
+	border-radius: var(--radius-pill);
+	border: 1px solid var(--line);
+	color: var(--ink);
+	font: var(--text-label);
+	transition:
+		background var(--speed-fast),
+		border-color var(--speed-fast);
+}
+
+.btn-ghost:hover {
+	background: var(--surface);
+	border-color: var(--muted);
+}
+
+.avatar {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 44px;
+	height: 44px;
+	border-radius: var(--radius-pill);
+	background: var(--ink);
+	color: var(--ink-inverse);
+	font: var(--text-label);
+	overflow: hidden;
+	user-select: none;
+}
+
+.avatar--sm {
+	width: 28px;
+	height: 28px;
+	font-size: 0.6875rem;
+}
+
+.avatar--lg {
+	width: 56px;
+	height: 56px;
+}
+
+.empty-state {
+	display: grid;
+	justify-items: center;
+	gap: var(--space-3);
+	padding: var(--space-8) var(--space-4);
+	color: var(--muted);
+	font: var(--text-meta);
+	text-align: center;
+}
+
+.empty-state svg {
+	width: 56px;
+	height: 56px;
+	color: var(--line);
+}
+
+.error-box {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-3) var(--space-4);
+	border-radius: var(--radius-md);
+	background: var(--surface);
+	border: 1px solid var(--line);
+	color: var(--danger);
+	font: var(--text-meta);
+}
+
+.spinner {
+	width: 22px;
+	height: 22px;
+	border: 2.5px solid var(--line);
+	border-top-color: var(--violet);
+	border-radius: var(--radius-pill);
+	animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(1turn);
+	}
+}
+
+.skeleton {
+	display: block;
+	height: 14px;
+	border-radius: var(--radius-sm);
+	background: linear-gradient(90deg, var(--surface) 25%, var(--surface-strong) 50%, var(--surface) 75%);
+	background-size: 200% 100%;
+	animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+	from {
+		background-position: 200% 0;
+	}
+	to {
+		background-position: -200% 0;
+	}
+}

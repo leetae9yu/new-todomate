@@ -1,0 +1,18 @@
+Command:
+bun test tests/planner.integration.test.ts tests/planner-extended.integration.test.ts
+
+Captured: 2026-09-02T01:07:00+09:00
+
+Expected RED reason:
+The authenticated category, task, routine, backlog, timer, diary, and statistics routes do not
+exist yet.
+
+Observed:
+- core dated lifecycle: expected category POST 201, received 404
+- local-date/overdue path: expected category POST 201, received 404
+- routine recurrence path: expected category POST 201, received 404
+- extended planner setup: expected category POST 201, received 404
+
+0 pass
+4 fail
+Command exited with code 1.

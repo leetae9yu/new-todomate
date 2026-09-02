@@ -1,0 +1,147 @@
+.social-screen {
+	display: grid;
+	gap: var(--space-5);
+	max-width: 760px;
+	margin: 0 auto;
+}
+
+.social-screen__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.social-screen__head h2 {
+	margin: 4px 0 0;
+	font: var(--text-title);
+}
+
+.social-screen__head > svg {
+	width: 32px;
+	height: 32px;
+	color: var(--violet);
+}
+
+.social-card {
+	display: grid;
+	gap: var(--space-3);
+	padding: var(--space-4);
+	border: 1px solid var(--surface);
+	border-radius: var(--radius-lg);
+	background: var(--bg);
+}
+
+.social-card input,
+.social-card select {
+	width: 100%;
+	padding: 11px 12px;
+	border: 1px solid var(--line);
+	border-radius: var(--radius-sm);
+	background: var(--bg);
+	color: var(--ink);
+}
+
+.avatar-strip {
+	display: flex;
+	gap: var(--space-2);
+	overflow-x: auto;
+}
+
+.avatar-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2);
+	flex: none;
+	padding: 4px 10px 4px 4px;
+	border-radius: var(--radius-pill);
+	background: var(--surface);
+	font: var(--text-meta);
+}
+
+.invite-token {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	padding: var(--space-2);
+	overflow-wrap: anywhere;
+	color: var(--violet);
+}
+
+.social-feed,
+.notification-list {
+	display: grid;
+	gap: var(--space-3);
+}
+
+.social-task {
+	display: grid;
+	grid-template-columns: 10px 1fr;
+	gap: var(--space-3);
+	padding: var(--space-4);
+	border-radius: var(--radius-lg);
+	background: var(--surface);
+}
+
+.social-task small,
+.notification-row small {
+	display: block;
+	margin-top: 3px;
+	color: var(--muted);
+}
+
+.category-dot {
+	width: 10px;
+	height: 10px;
+	margin-top: 5px;
+	border-radius: var(--radius-pill);
+}
+
+.reaction-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-top: var(--space-3);
+}
+
+.reaction-row button,
+.reaction-row span {
+	padding: 4px 8px;
+	border-radius: var(--radius-pill);
+	background: var(--bg);
+}
+
+.notification-row {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: var(--space-3);
+	width: 100%;
+	padding: var(--space-3);
+	border-radius: var(--radius-md);
+	text-align: left;
+}
+
+.notification-row.is-unread {
+	background: color-mix(in srgb, var(--violet) 10%, var(--bg));
+}
+
+.notification-row i {
+	width: 8px;
+	height: 8px;
+	border-radius: var(--radius-pill);
+	background: var(--violet);
+}
+
+.profile-editor label {
+	font: var(--text-label);
+}
+
+.toggle-row {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+}
+
+.toggle-row input {
+	width: auto;
+}
