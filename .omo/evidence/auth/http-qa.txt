@@ -1,0 +1,38 @@
+Approved scenario
+Command:
+curl -sS -i -c /tmp/new-todomate.cookies -H 'content-type: application/json' \
+  --data '{"username":"demo","password":"demo-pass"}' \
+  http://127.0.0.1:8787/api/auth/sign-in
+
+HTTP/1.1 200 OK
+set-cookie: __Secure-new-todomate.session_token=<redacted>; Max-Age=604800; Path=/; HttpOnly; Secure; SameSite=Lax
+Content-Type: application/json
+
+{"redirect":false,"user":{"name":"데모","username":"demo","displayUsername":"데모","status":"active","image":null}}
+
+PASS:
+- HTTP 200
+- Secure HttpOnly SameSite=Lax session cookie
+- username demo and active status
+- no session token in JSON body
+
+Intruder scenario
+Command:
+curl -sS -i -c /tmp/new-todomate-intruder.cookies -H 'content-type: application/json' \
+  --data '{"username":"intruder","password":"demo-pass"}' \
+  http://127.0.0.1:8787/api/auth/sign-in
+
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json; charset=UTF-8
+
+{"error":{"code":"INVALID_CREDENTIALS","message":"아이디 또는 비밀번호를 확인해 주세요."}}
+
+PASS:
+- HTTP 401
+- no Set-Cookie
+- generic non-enumerating credential error
+
+Cleanup receipt:
+- killed QA server bash_44
+- removed /tmp/new-todomate.cookies and /tmp/new-todomate-intruder.cookies
+- verified TCP port 8787 has no listener

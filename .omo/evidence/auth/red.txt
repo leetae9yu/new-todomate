@@ -1,0 +1,25 @@
+Command: bun test tests/auth.integration.test.ts
+Captured: 2026-09-02T00:57:00+09:00
+Expected RED reason: the new sign-in contract has no route or implementation yet.
+
+bun test v1.3.14
+
+approved account:
+Expected status: 200
+Received status: 404
+
+unknown username:
+Expected status: 401
+Received status: 404
+
+wrong password:
+Expected status: 401
+Received status: 404
+
+disabled account:
+Expected status: 401
+Received status: 404
+
+0 pass
+4 fail
+Command exited with code 1.

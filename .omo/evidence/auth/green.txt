@@ -1,0 +1,18 @@
+Command: bun test tests/auth.integration.test.ts
+Captured: 2026-09-02T00:57:11+09:00
+
+bun test v1.3.14
+
+PASS approved account receives a secure session cookie
+PASS rejects unknown username without issuing a session
+PASS rejects wrong password without issuing a session
+PASS rejects disabled account without issuing a session
+
+4 pass
+0 fail
+14 expect() calls
+
+Supporting checks:
+- bun run typecheck: exit 0
+- bun run lint: Checked 23 files. No diagnostics.
+- TypeScript LSP directories before final one-file refresh: 0 errors in server and tests.

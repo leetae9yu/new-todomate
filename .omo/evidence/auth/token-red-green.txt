@@ -1,0 +1,19 @@
+Security defect discovered in the first live HTTP response:
+
+RED command:
+bun test tests/auth.integration.test.ts -t "approved account receives"
+
+RED observable:
+Expected response body not to have property "token".
+Received a raw session token in JSON.
+0 pass, 1 fail.
+
+GREEN command:
+bun test tests/auth.integration.test.ts -t "approved account receives"
+
+GREEN observable:
+The API preserves the Secure HttpOnly SameSite=Lax Set-Cookie header while returning only the
+safe user projection and redirect flag.
+1 pass, 0 fail.
+
+The session token remains in the protected cookie and is no longer readable from response JSON.

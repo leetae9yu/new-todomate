@@ -1,0 +1,19 @@
+Surface defect discovered while starting the real QA server:
+
+RED command:
+bun test tests/auth.integration.test.ts -t "creates missing parent directories"
+
+RED observable:
+ENOENT creating /tmp/new-todomate-auth-*/nested/auth
+0 pass, 1 fail
+
+GREEN command:
+bun test tests/auth.integration.test.ts -t "creates missing parent directories"
+
+GREEN observable:
+PASS local authentication storage > creates missing parent directories on first start
+1 pass, 0 fail
+
+Fix:
+The PGlite runtime now recursively creates its configured data directory before opening storage.
+The test removes its temporary root in a finally block.
