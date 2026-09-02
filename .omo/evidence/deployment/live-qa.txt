@@ -1,0 +1,30 @@
+Production deployment QA
+
+URL: https://new-todomate.nobae0905.workers.dev
+
+API surface:
+- GET /: 200
+- GET /api/health: 200
+- POST /api/auth/sign-in: 200 for approved admin account
+- POST /api/categories: 201
+- POST /api/tasks: 201
+- GET /api/planner?date=2026-09-02: 200
+- Created Todo was present in the subsequent planner response: PASS
+
+Browser surface:
+- approved admin login: PASS
+- persisted production Todo visible: PASS
+- mobile 390x844 horizontal overflow: none
+- desktop 1440x1000 horizontal overflow: none
+- manifest display=standalone: PASS
+- active service worker: PASS
+
+Evidence:
+- live-mobile.png
+- live-desktop.png
+
+Cloud infrastructure:
+- Neon project: new-todomate, AWS Singapore
+- migrations 0000_auth.sql, 0001_planner.sql, 0002_social.sql applied
+- Cloudflare Worker secrets DATABASE_URL and BETTER_AUTH_SECRET configured
+- Cloudflare Worker version d13c9da5-8524-4a34-93a0-d12844b22018 deployed
