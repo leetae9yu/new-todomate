@@ -1,0 +1,225 @@
+[
+  {
+    "action": "login",
+    "username": "admin",
+    "verdict": "passed"
+  },
+  {
+    "action": "login",
+    "username": "friend",
+    "verdict": "passed"
+  },
+  {
+    "action": "group-ready",
+    "groupId": "557c6190-a096-4119-85f3-2225e0f20737",
+    "groupName": "실시간 QA 385419",
+    "verdict": "passed"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"chat.ready\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"onlineUserIds\":[\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\"]}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"chat.ready\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"onlineUserIds\":[\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\"]}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"presence.changed\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"userId\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"status\":\"online\"}"
+  },
+  {
+    "action": "ws-sent",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"typing.start\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"userId\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"isTyping\":true,\"expiresAt\":\"2026-09-02T16:43:17.185Z\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"userId\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"isTyping\":true,\"expiresAt\":\"2026-09-02T16:43:17.185Z\"}"
+  },
+  {
+    "action": "group-typing",
+    "verdict": "passed"
+  },
+  {
+    "action": "ws-sent",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"typing.stop\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"userId\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"isTyping\":false,\"expiresAt\":\"1970-01-01T00:00:00.000Z\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"userId\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"isTyping\":false,\"expiresAt\":\"1970-01-01T00:00:00.000Z\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"message.created\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"message\":{\"id\":\"22b0a102-0147-4654-82da-01c03f996459\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"sequence\":1,\"clientMessageId\":\"871c4f82-180b-4d4e-a9f5-99c22f58c61f\",\"body\":\"그룹 실시간 메시지 385419\",\"sender\":{\"id\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"name\":\"관리자\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:12.839394+00\"}}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"message.created\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"message\":{\"id\":\"22b0a102-0147-4654-82da-01c03f996459\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"sequence\":1,\"clientMessageId\":\"871c4f82-180b-4d4e-a9f5-99c22f58c61f\",\"body\":\"그룹 실시간 메시지 385419\",\"sender\":{\"id\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"name\":\"관리자\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:12.839394+00\"}}"
+  },
+  {
+    "action": "chat-post-response",
+    "username": "admin",
+    "url": "https://new-todomate.nobae0905.workers.dev/api/chat/rooms/group%3A557c6190-a096-4119-85f3-2225e0f20737/messages",
+    "status": 201,
+    "body": "{\"id\":\"22b0a102-0147-4654-82da-01c03f996459\",\"roomId\":\"group:557c6190-a096-4119-85f3-2225e0f20737\",\"sequence\":1,\"clientMessageId\":\"871c4f82-180b-4d4e-a9f5-99c22f58c61f\",\"body\":\"그룹 실시간 메시지 385419\",\"sender\":{\"id\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"name\":\"관리자\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:12.839394+00\"}"
+  },
+  {
+    "action": "group-history-after-send",
+    "status": 200,
+    "messages": [
+      {
+        "id": "22b0a102-0147-4654-82da-01c03f996459",
+        "roomId": "group:557c6190-a096-4119-85f3-2225e0f20737",
+        "sequence": 1,
+        "clientMessageId": "871c4f82-180b-4d4e-a9f5-99c22f58c61f",
+        "body": "그룹 실시간 메시지 385419",
+        "sender": {
+          "id": "N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3",
+          "name": "관리자",
+          "image": null
+        },
+        "createdAt": "2026-09-02 16:43:12.839394+00"
+      }
+    ]
+  },
+  {
+    "action": "group-message",
+    "body": "그룹 실시간 메시지 385419",
+    "verdict": "passed"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"chat.ready\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"onlineUserIds\":[\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\"]}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"chat.ready\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"onlineUserIds\":[\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\"]}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"presence.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"status\":\"online\"}"
+  },
+  {
+    "action": "ws-sent",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.start\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"isTyping\":true,\"expiresAt\":\"2026-09-02T16:43:24.371Z\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"isTyping\":true,\"expiresAt\":\"2026-09-02T16:43:24.371Z\"}"
+  },
+  {
+    "action": "ws-sent",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.stop\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"isTyping\":false,\"expiresAt\":\"1970-01-01T00:00:00.000Z\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"isTyping\":false,\"expiresAt\":\"1970-01-01T00:00:00.000Z\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"message.created\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"message\":{\"id\":\"73056fcc-9c9f-4fd3-b4f3-928a2314809a\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"sequence\":2,\"clientMessageId\":\"a3a07098-93e3-42e5-82a7-ffba198d59f5\",\"body\":\"DM 실시간 메시지 385419\",\"sender\":{\"id\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"name\":\"친구\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:19.937294+00\"}}"
+  },
+  {
+    "action": "ws-received",
+    "username": "admin",
+    "payload": "{\"v\":1,\"type\":\"message.created\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"message\":{\"id\":\"73056fcc-9c9f-4fd3-b4f3-928a2314809a\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"sequence\":2,\"clientMessageId\":\"a3a07098-93e3-42e5-82a7-ffba198d59f5\",\"body\":\"DM 실시간 메시지 385419\",\"sender\":{\"id\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"name\":\"친구\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:19.937294+00\"}}"
+  },
+  {
+    "action": "chat-post-response",
+    "username": "friend",
+    "url": "https://new-todomate.nobae0905.workers.dev/api/chat/rooms/dm%3AKECClchvX2tt9v3k6wyOLlwohOSceNx3%3AN1xnHpgnlm8sLykipm3g5wZeoaLwu9R3/messages",
+    "status": 201,
+    "body": "{\"id\":\"73056fcc-9c9f-4fd3-b4f3-928a2314809a\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"sequence\":2,\"clientMessageId\":\"a3a07098-93e3-42e5-82a7-ffba198d59f5\",\"body\":\"DM 실시간 메시지 385419\",\"sender\":{\"id\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"name\":\"친구\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:19.937294+00\"}"
+  },
+  {
+    "action": "dm-message-and-typing",
+    "roomId": "dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3",
+    "verdict": "passed"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"presence.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"status\":\"offline\"}"
+  },
+  {
+    "action": "ws-sent",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.start\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"isTyping\":true,\"expiresAt\":\"2026-09-02T16:43:25.281Z\"}"
+  },
+  {
+    "action": "ws-sent",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.stop\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"typing.changed\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"userId\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"isTyping\":false,\"expiresAt\":\"1970-01-01T00:00:00.000Z\"}"
+  },
+  {
+    "action": "ws-received",
+    "username": "friend",
+    "payload": "{\"v\":1,\"type\":\"message.created\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"message\":{\"id\":\"c7d40834-ffd8-424b-a5f3-bded059b6263\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"sequence\":3,\"clientMessageId\":\"e8112723-fa66-4f2d-a28c-f2da1f2d1e40\",\"body\":\"안 읽음 확인 385419\",\"sender\":{\"id\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"name\":\"친구\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:20.822675+00\"}}"
+  },
+  {
+    "action": "chat-post-response",
+    "username": "friend",
+    "url": "https://new-todomate.nobae0905.workers.dev/api/chat/rooms/dm%3AKECClchvX2tt9v3k6wyOLlwohOSceNx3%3AN1xnHpgnlm8sLykipm3g5wZeoaLwu9R3/messages",
+    "status": 201,
+    "body": "{\"id\":\"c7d40834-ffd8-424b-a5f3-bded059b6263\",\"roomId\":\"dm:KECClchvX2tt9v3k6wyOLlwohOSceNx3:N1xnHpgnlm8sLykipm3g5wZeoaLwu9R3\",\"sequence\":3,\"clientMessageId\":\"e8112723-fa66-4f2d-a28c-f2da1f2d1e40\",\"body\":\"안 읽음 확인 385419\",\"sender\":{\"id\":\"KECClchvX2tt9v3k6wyOLlwohOSceNx3\",\"name\":\"친구\",\"image\":null},\"createdAt\":\"2026-09-02 16:43:20.822675+00\"}"
+  },
+  {
+    "action": "unread-read",
+    "verdict": "passed"
+  },
+  {
+    "action": "cross-room-denied",
+    "verdict": "passed"
+  },
+  {
+    "action": "cleanup",
+    "contexts": 0,
+    "browserClosed": true
+  }
+]

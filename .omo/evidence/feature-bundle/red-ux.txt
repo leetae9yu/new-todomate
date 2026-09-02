@@ -1,0 +1,29 @@
+feature-bundle UX QA against https://new-todomate.nobae0905.workers.dev
+user: admin
+
+(credentials passed via environment; not recorded here)
+PASS login with provided credentials
+PASS phone-small: document width 320 has no horizontal overflow
+PASS phone-small: eight responsive tabs fit the viewport
+PASS phone: document width 390 has no horizontal overflow
+PASS phone: eight responsive tabs fit the viewport
+PASS tablet: document width 768 has no horizontal overflow
+PASS tablet: eight responsive tabs fit the viewport
+PASS desktop-small: document width 1024 has no horizontal overflow
+PASS desktop-small: eight responsive tabs fit the viewport
+PASS desktop-wide: document width 1440 has no horizontal overflow
+PASS desktop-wide: eight responsive tabs fit the viewport
+PASS timer: start from task menu engages the running screen
+PASS timer: in-session continuity kept 타이머 계약 956811 running
+PASS cleanup: timer stopped
+PASS cleanup: context and browser closed
+FAIL home: dead 뷰 전환 view-toggle segment is still rendered
+FAIL calendar: dead 뷰 전환 view-toggle segment is still rendered
+FAIL diary: sheet surface is violet (rgb(100, 51, 255)), not white
+FAIL diary: violet-sheet drag handle is still rendered
+FAIL diary: no exit/back control exists (first second-class return to home missing)
+FAIL timer: no exit/back control exists (first second-class return to home missing)
+FAIL timer: reload fell back to idle (00:00:00); no rehydration endpoint/state
+FAIL drawer: rows are [카테고리 관리, 루틴 관리, 리마인더 관리, 보관함, 공개설정, 차단/신고, 팔로우 승인 후 허용, 리마인더 시간, 소식 알림, 마케팅 알림, 테마, 글꼴, 24시간 표시, 달력 시작 요일, 이용약관, 개인정보처리방침, 버전, 문의하기, 로그아웃], expected exactly [카테고리 관리, 루틴 관리, 보관함, 테마, 소식 알림, 로그아웃]
+
+RED - 8 UX defect(s) named

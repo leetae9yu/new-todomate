@@ -1,11 +1,13 @@
 import { Hono } from "hono";
 import { z } from "zod";
 import type { AuthRuntime } from "./auth/runtime";
+import { installChatBoundary, type ChatGateway } from "./chat";
 import { installPlannerRoutes } from "./planner";
 import { installSocialRoutes } from "./social";
 
 type CreateAppOptions = {
 	auth?: AuthRuntime;
+	chatGateway?: ChatGateway;
 };
 
 const signInSchema = z.object({
@@ -46,7 +48,8 @@ export function createApp(options: CreateAppOptions = {}) {
 	if (!options.auth) return app;
 	const auth = options.auth;
 	installPlannerRoutes(app, auth);
-	installSocialRoutes(app, auth);
+	installSocialRoutes(app, auth, options.chatGateway);
+	installChatBoundary(app, auth, options.chatGateway);
 
 	app.post("/api/auth/sign-in", async (context) => {
 		const input = signInSchema.safeParse(await context.req.json().catch(() => null));

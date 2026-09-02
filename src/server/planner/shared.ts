@@ -48,6 +48,23 @@ function routineDays(value: unknown) {
 	}
 }
 
+export function routineResponse(row: QueryRow) {
+	const type = String(row.frequencyType);
+	const days = routineDays(row.frequencyDays);
+	return {
+		id: String(row.id),
+		categoryId: String(row.categoryId),
+		title: String(row.title),
+		startDate: String(row.startDate),
+		endDate: row.endDate === null ? null : String(row.endDate),
+		frequency:
+			type === "daily"
+				? { type: "daily" as const }
+				: { type: type === "monthly" ? ("monthly" as const) : ("weekdays" as const), days },
+		status: row.status === "paused" ? ("paused" as const) : ("active" as const),
+	};
+}
+
 export function appliesOnDate(row: QueryRow, localDate: string) {
 	const type = String(row.frequencyType);
 	if (type === "daily") return true;

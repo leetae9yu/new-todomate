@@ -1,0 +1,64 @@
+GREEN corrective planner/tool UX evidence
+URL: http://127.0.0.1:5173
+Credentials supplied by environment and not recorded.
+PASS Home dead view selector is absent
+PASS Home date header has exactly Previous/Next
+PASS Calendar dead view selector is absent
+PASS Calendar date header has exactly Previous/Next
+PASS phone-small: Diary surface is white
+PASS phone-small: violet Diary handle is absent
+PASS phone-small: one mood exposes aria-pressed
+PASS phone-small: Diary has no horizontal overflow
+PASS phone-small: Diary back control is visible and >=44px
+PASS phone-small: Diary exit restores Home focus/date
+PASS phone-small: Timer has no horizontal overflow
+PASS phone-small: Timer back control is visible and >=44px
+PASS phone-small: eight primary tabs remain
+PASS phone-small: Timer exit restores Home focus
+PASS phone: Diary surface is white
+PASS phone: violet Diary handle is absent
+PASS phone: one mood exposes aria-pressed
+PASS phone: Diary has no horizontal overflow
+PASS phone: Diary back control is visible and >=44px
+PASS phone: Diary exit restores Home focus/date
+PASS phone: Timer has no horizontal overflow
+PASS phone: Timer back control is visible and >=44px
+PASS phone: eight primary tabs remain
+PASS phone: Timer exit restores Home focus
+PASS tablet: Diary surface is white
+PASS tablet: violet Diary handle is absent
+PASS tablet: one mood exposes aria-pressed
+PASS tablet: Diary has no horizontal overflow
+PASS tablet: Diary back control is visible and >=44px
+PASS tablet: Diary exit restores Home focus/date
+PASS tablet: Timer has no horizontal overflow
+PASS tablet: Timer back control is visible and >=44px
+PASS tablet: eight primary tabs remain
+PASS tablet: Timer exit restores Home focus
+PASS desktop-small: Diary surface is white
+PASS desktop-small: violet Diary handle is absent
+PASS desktop-small: one mood exposes aria-pressed
+PASS desktop-small: Diary has no horizontal overflow
+PASS desktop-small: Diary back control is visible and >=44px
+PASS desktop-small: Diary exit restores Home focus/date
+PASS desktop-small: Timer has no horizontal overflow
+PASS desktop-small: Timer back control is visible and >=44px
+PASS desktop-small: eight primary tabs remain
+PASS desktop-small: Timer exit restores Home focus
+PASS desktop-wide: Diary surface is white
+PASS desktop-wide: violet Diary handle is absent
+PASS desktop-wide: one mood exposes aria-pressed
+PASS desktop-wide: Diary has no horizontal overflow
+PASS desktop-wide: Diary back control is visible and >=44px
+PASS desktop-wide: Diary exit restores Home focus/date
+PASS desktop-wide: Timer has no horizontal overflow
+PASS desktop-wide: Timer back control is visible and >=44px
+PASS desktop-wide: eight primary tabs remain
+PASS desktop-wide: Timer exit restores Home focus
+PASS Diary draft exits issue no PUT
+PASS Timer exit issues no stop request
+PASS Timer re-entry is nondecreasing (00:00:01)
+PASS Timer reload rehydrates same task nondecreasing (00:00:04)
+PASS QA cleanup stops the timer exactly once
+PASS browser context and page closed
+GREEN - dead selector, white Diary, exits, timer continuity, eight-tab responsive contract

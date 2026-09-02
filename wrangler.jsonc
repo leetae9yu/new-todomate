@@ -4,6 +4,20 @@
 	"main": "src/server/worker.ts",
 	"compatibility_date": "2026-09-02",
 	"compatibility_flags": ["nodejs_compat"],
+	"exports": {
+		"ChatRoom": {
+			"type": "durable-object",
+			"storage": "sqlite"
+		}
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "CHAT_ROOM",
+				"class_name": "ChatRoom"
+			}
+		]
+	},
 	"workers_dev": true,
 	"assets": {
 		"directory": "./dist",

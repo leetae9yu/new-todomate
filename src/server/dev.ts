@@ -3,13 +3,14 @@ import { createPgliteAuthRuntime } from "./auth/pglite";
 
 const port = Number(process.env.PORT ?? "8787");
 const baseURL = process.env.BETTER_AUTH_URL ?? "http://localhost:5173";
+const dataDirectory = process.env.DATA_DIRECTORY ?? ".data/local-auth";
 const secret =
 	process.env.BETTER_AUTH_SECRET ?? "local-development-secret-change-before-production";
 
 const auth = await createPgliteAuthRuntime({
 	baseURL,
 	secret,
-	dataDirectory: ".data/local-auth",
+	dataDirectory,
 });
 
 const existingDemo = await auth.findByUsername("demo");

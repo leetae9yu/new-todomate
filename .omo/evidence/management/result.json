@@ -1,0 +1,15 @@
+[
+  {
+    "action": "category-update-reorder-delete",
+    "verdict": "passed"
+  },
+  {
+    "action": "routine-edit-pause-resume-delete",
+    "verdict": "passed"
+  },
+  {
+    "action": "cleanup",
+    "contexts": 0,
+    "browserClosed": true
+  }
+]

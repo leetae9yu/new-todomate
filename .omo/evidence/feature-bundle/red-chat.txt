@@ -1,0 +1,78 @@
+bun test v1.3.14 (0d9b296a)
+
+tests/chat.integration.test.ts:
+43 | 	test("creates exactly one automatic room for a private group", async () => {
+44 | 		const group = await createGroup(harness, "자동 채팅방");
+45 | 		const owner = await memberNamed(harness, group.id, "demo");
+46 |
+47 | 		const response = await harness.demo("/api/chat/rooms");
+48 | 		expect(response.status).toBe(200);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/chat.integration.test.ts:48:27)
+(fail) authorized durable chat HTTP API > creates exactly one automatic room for a private group [32.42ms]
+68 | 	test("returns an indistinguishable JSON 404 to a group outsider", async () => {
+69 | 		const group = await createGroup(harness, "비공개 대화");
+70 |
+71 | 		const response = await harness.friend(`/api/chat/rooms/group:${group.id}/messages`);
+72 | 		expect(response.status).toBe(404);
+73 | 		expect(response.headers.get("content-type")).toContain("application/json");
+                                                    ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "application/json"
+Received: "text/plain; charset=UTF-8"
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/chat.integration.test.ts:73:48)
+(fail) authorized durable chat HTTP API > returns an indistinguishable JSON 404 to a group outsider [17.32ms]
+80 |
+81 | 		const forbidden = await harness.demo("/api/chat/dms", {
+82 | 			method: "POST",
+83 | 			body: { participantId: await friendId(harness) },
+84 | 		});
+85 | 		expect(forbidden.status).toBe(403);
+                                ^
+error: expect(received).toBe(expected)
+
+Expected: 403
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/chat.integration.test.ts:85:28)
+(fail) authorized durable chat HTTP API > creates one canonical DM only after users share a private group and is idempotent [34.75ms]
+125 |
+126 | 		const room = await harness.demo("/api/chat/dms", {
+127 | 			method: "POST",
+128 | 			body: { participantId: friend.id },
+129 | 		});
+130 | 		expect(room.status).toBe(201);
+                            ^
+error: expect(received).toBe(expected)
+
+Expected: 201
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/chat.integration.test.ts:130:23)
+(fail) authorized durable chat HTTP API > persists ordered messages, tracks unread counts, and advances a monotonic read cursor [82.21ms]
+195 |
+196 | 		const dm = await harness.demo("/api/chat/dms", {
+197 | 			method: "POST",
+198 | 			body: { participantId: friend.id },
+199 | 		});
+200 | 		expect(dm.status).toBe(201);
+                          ^
+error: expect(received).toBe(expected)
+
+Expected: 201
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/chat.integration.test.ts:200:21)
+(fail) authorized durable chat HTTP API > revokes removed members from their group room while retaining the DM [45.58ms]
+
+ 0 pass
+ 5 fail
+ 28 expect() calls
+Ran 5 tests across 1 file. [4.08s]

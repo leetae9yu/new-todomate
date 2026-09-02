@@ -1,0 +1,51 @@
+GREEN tool UX evidence
+URL: http://127.0.0.1:5173
+Credentials supplied by environment and not recorded.
+PASS phone-small: diary has no horizontal overflow
+PASS phone-small: diary controls are horizontally in bounds and at least 44px
+PASS phone-small: diary back control is visible
+PASS phone-small: diary back restores Home focus and date
+PASS phone-small: timer has no horizontal overflow
+PASS phone-small: timer controls are horizontally in bounds and at least 44px
+PASS phone-small: timer back control is visible
+PASS phone-small: tool surfaces retain eight tabs
+PASS phone-small: timer back restores Home focus
+PASS phone: diary has no horizontal overflow
+PASS phone: diary controls are horizontally in bounds and at least 44px
+PASS phone: diary back control is visible
+PASS phone: diary back restores Home focus and date
+PASS phone: timer has no horizontal overflow
+PASS phone: timer controls are horizontally in bounds and at least 44px
+PASS phone: timer back control is visible
+PASS phone: tool surfaces retain eight tabs
+PASS phone: timer back restores Home focus
+PASS tablet: diary has no horizontal overflow
+PASS tablet: diary controls are horizontally in bounds and at least 44px
+PASS tablet: diary back control is visible
+PASS tablet: diary back restores Home focus and date
+PASS tablet: timer has no horizontal overflow
+PASS tablet: timer controls are horizontally in bounds and at least 44px
+PASS tablet: timer back control is visible
+PASS tablet: tool surfaces retain eight tabs
+PASS tablet: timer back restores Home focus
+PASS desktop-small: diary has no horizontal overflow
+PASS desktop-small: diary controls are horizontally in bounds and at least 44px
+PASS desktop-small: diary back control is visible
+PASS desktop-small: diary back restores Home focus and date
+PASS desktop-small: timer has no horizontal overflow
+PASS desktop-small: timer controls are horizontally in bounds and at least 44px
+PASS desktop-small: timer back control is visible
+PASS desktop-small: tool surfaces retain eight tabs
+PASS desktop-small: timer back restores Home focus
+PASS desktop-wide: diary has no horizontal overflow
+PASS desktop-wide: diary controls are horizontally in bounds and at least 44px
+PASS desktop-wide: diary back control is visible
+PASS desktop-wide: diary back restores Home focus and date
+PASS desktop-wide: timer has no horizontal overflow
+PASS desktop-wide: timer controls are horizontally in bounds and at least 44px
+PASS desktop-wide: timer back control is visible
+PASS desktop-wide: tool surfaces retain eight tabs
+PASS desktop-wide: timer back restores Home focus
+PASS Diary draft exits did not issue PUT requests
+PASS browser context closed
+GREEN - planner/tool UX contract

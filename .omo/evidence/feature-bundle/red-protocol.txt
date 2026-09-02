@@ -1,0 +1,8 @@
+RED verification: bun test tests/chat-protocol.test.ts
+
+Result:
+error: Cannot find module '../src/server/chat/protocol-state' from '/home/opc/projects/fake-todomate/tests/chat-protocol.test.ts'
+
+0 pass, 1 fail, 1 error
+
+This is the intended failing-first RED: the planned protocol-state module/API is not present. The test file itself parses and reaches module resolution; no production code was added.

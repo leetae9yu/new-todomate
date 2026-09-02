@@ -1,3 +1,4 @@
+import type { Ref } from "react";
 import { koreanMonthTitle, koreanWeekTitle, weekRange } from "../api/dates";
 import type { PlannerDay } from "../api/planner";
 import { CalendarScreen } from "./calendar";
@@ -7,10 +8,9 @@ type PlannerDateNavigationProps = {
 	view: string;
 	date: string;
 	monthAnchor: string;
-	calendarView: "주" | "월";
 	planner: PlannerDay | undefined;
 	username: string;
-	onCalendarView: (view: "주" | "월") => void;
+	homeHeadingRef?: Ref<HTMLHeadingElement> | undefined;
 	onPrev: () => void;
 	onNext: () => void;
 	onSelectDate: (date: string) => void;
@@ -20,10 +20,9 @@ export function PlannerDateNavigation({
 	view,
 	date,
 	monthAnchor,
-	calendarView,
 	planner,
 	username,
-	onCalendarView,
+	homeHeadingRef,
 	onPrev,
 	onNext,
 	onSelectDate,
@@ -38,8 +37,7 @@ export function PlannerDateNavigation({
 			<DateHead
 				title={view === "calendar" ? koreanMonthTitle(monthAnchor) : koreanWeekTitle(date)}
 				badge={view === "calendar" ? undefined : String(new Date(date).getDate())}
-				view={calendarView}
-				onView={(next) => onCalendarView(next as "주" | "월")}
+				headingRef={view === "home" ? homeHeadingRef : undefined}
 				onPrev={onPrev}
 				onNext={onNext}
 			/>

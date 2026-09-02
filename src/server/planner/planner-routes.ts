@@ -37,7 +37,8 @@ export function installPlannerReadRoutes(app: Hono, auth: AuthRuntime) {
 			auth.planner.query<QueryRow>(
 				`SELECT id, category_id AS "categoryId", title, start_date AS "startDate", end_date AS "endDate",
 				 frequency_type AS "frequencyType", frequency_days AS "frequencyDays"
-				 FROM routine WHERE owner_id = $1 AND start_date <= $2 AND (end_date IS NULL OR end_date >= $2) ORDER BY created_at`,
+				 FROM routine WHERE owner_id = $1 AND status = 'active'
+				 AND start_date <= $2 AND (end_date IS NULL OR end_date >= $2) ORDER BY created_at`,
 				[ownerId, date],
 			),
 			auth.planner.query<QueryRow>(
@@ -46,16 +47,21 @@ export function installPlannerReadRoutes(app: Hono, auth: AuthRuntime) {
 			),
 		]);
 		const completedByRoutine = new Map(occurrences.map((row) => [String(row.routineId), row]));
+		const compactCategories = tasks.length === 0 && routineRows.length === 0;
 		return context.json({
 			date,
-			categories: categories.map((category) => ({
-				id: category.id,
-				name: category.name,
-				color: category.color,
-				visibility: category.visibility,
-				position: Number(category.position),
-				tasks: tasks.filter((task) => task.categoryId === category.id).map(taskResponse),
-			})),
+			categories: categories.map((category) =>
+				compactCategories
+					? { id: category.id, position: Number(category.position) }
+					: {
+						id: category.id,
+						name: category.name,
+						color: category.color,
+						visibility: category.visibility,
+						position: Number(category.position),
+						tasks: tasks.filter((task) => task.categoryId === category.id).map(taskResponse),
+					},
+			),
 			overdue: overdue.map(taskResponse),
 			routines: routineRows.filter((routine) => appliesOnDate(routine, date)).map((routine) => {
 				const occurrence = completedByRoutine.get(String(routine.id));

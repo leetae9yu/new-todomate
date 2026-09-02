@@ -35,8 +35,10 @@ CREATE TABLE IF NOT EXISTS "routine" (
 	"end_date" text,
 	"frequency_type" text NOT NULL,
 	"frequency_days" jsonb NOT NULL,
+	"status" text DEFAULT 'active' NOT NULL CHECK ("status" IN ('active', 'paused')),
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL
 );
+ALTER TABLE "routine" ADD COLUMN IF NOT EXISTS "status" text DEFAULT 'active' NOT NULL CHECK ("status" IN ('active', 'paused'));
 CREATE INDEX IF NOT EXISTS "routine_owner_date_idx" ON "routine" ("owner_id", "start_date");
 
 CREATE TABLE IF NOT EXISTS "routine_occurrence" (

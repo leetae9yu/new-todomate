@@ -35,6 +35,17 @@ export function installProfileRoutes(app: Hono, auth: AuthRuntime) {
 		return context.json(row);
 	});
 
+	app.get("/api/settings", async (context) => {
+		const userId = await socialUser(auth, context);
+		if (!userId) return unauthorized(context);
+		const [row] = await auth.planner.query<QueryRow>(
+			`SELECT theme, notifications_enabled AS "notificationsEnabled"
+			 FROM user_settings WHERE user_id = $1`,
+			[userId],
+		);
+		return context.json(row ?? { theme: "system", notificationsEnabled: true });
+	});
+
 	app.put("/api/settings", async (context) => {
 		const userId = await socialUser(auth, context);
 		const input = settingsSchema.safeParse(await context.req.json().catch(() => null));

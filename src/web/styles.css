@@ -6,9 +6,11 @@
 @import "./styles/today.css";
 @import "./styles/calendar.css";
 @import "./styles/routines.css";
+@import "./styles/management.css";
 @import "./styles/backlog.css";
 @import "./styles/timer.css";
 @import "./styles/diary.css";
 @import "./styles/stats.css";
 @import "./styles/widgets.css";
 @import "./styles/social.css";
+@import "./styles/chat.css";

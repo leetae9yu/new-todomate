@@ -12,7 +12,7 @@
 }
 
 .social-screen__head h2 {
-	margin: 4px 0 0;
+	margin: var(--space-1) 0 0;
 	font: var(--text-title);
 }
 
@@ -144,4 +144,63 @@
 
 .toggle-row input {
 	width: auto;
+}
+
+.social-screen--chat {
+	width: 100%;
+	max-width: none;
+}
+
+.social-mode-switch {
+	display: inline-grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	justify-self: start;
+	gap: var(--space-1);
+	padding: var(--space-1);
+	border-radius: var(--radius-pill);
+	background: var(--surface);
+}
+
+.social-mode-switch button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2);
+	min-width: calc(var(--space-12) + var(--space-10));
+	padding: var(--space-2) var(--space-4);
+	border-radius: var(--radius-pill);
+	color: var(--muted);
+	font: var(--text-label);
+	transition:
+		background var(--speed-fast),
+		color var(--speed-fast),
+		transform var(--speed-fast) var(--ease-pop);
+}
+
+.social-mode-switch button:hover {
+	color: var(--ink);
+}
+
+.social-mode-switch button.is-active {
+	background: var(--ink);
+	color: var(--ink-inverse);
+}
+
+.social-mode-switch button svg {
+	width: var(--space-4);
+	height: var(--space-4);
+}
+
+.social-mode-switch button > span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--space-5);
+	height: var(--space-5);
+	padding-inline: var(--space-1);
+	border-radius: var(--radius-pill);
+	background: var(--violet);
+	color: var(--on-violet);
+	font: var(--text-caption);
+	font-weight: 800;
 }

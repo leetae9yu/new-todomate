@@ -1,6 +1,7 @@
 import type { Hono } from "hono";
 import { z } from "zod";
 import type { AuthRuntime } from "../auth/runtime";
+import type { ChatGateway } from "../chat";
 import { badRequest, notFound, type QueryRow, unauthorized } from "../planner/shared";
 import { membership, socialUser } from "./shared";
 
@@ -8,7 +9,7 @@ const groupSchema = z.object({ name: z.string().trim().min(1).max(100) }).strict
 const respondSchema = z.object({ accept: z.boolean() }).strict();
 const roleSchema = z.object({ role: z.enum(["member", "admin"]) }).strict();
 
-export function installGroupRoutes(app: Hono, auth: AuthRuntime) {
+export function installGroupRoutes(app: Hono, auth: AuthRuntime, chatGateway?: ChatGateway) {
 	app.get("/api/groups", async (context) => {
 		const userId = await socialUser(auth, context);
 		if (!userId) return unauthorized(context);
@@ -119,5 +120,30 @@ export function installGroupRoutes(app: Hono, auth: AuthRuntime) {
 			[groupId.data, memberId.data, input.data.role],
 		);
 		return row ? context.json(row) : notFound(context);
+	});
+
+	app.delete("/api/groups/:id/members/:userId", async (context) => {
+		const actorId = await socialUser(auth, context);
+		const groupId = z.uuid().safeParse(context.req.param("id"));
+		const memberId = z.string().min(1).safeParse(context.req.param("userId"));
+		if (!actorId) return unauthorized(context);
+		if (!groupId.success || !memberId.success) return badRequest(context);
+		if ((await membership(auth, groupId.data, actorId)) !== "owner") {
+			return context.json({ error: { code: "FORBIDDEN" } }, 403);
+		}
+		if (memberId.data === actorId) return context.json({ error: { code: "FORBIDDEN" } }, 403);
+		const [removed] = await auth.planner.query<QueryRow>(
+			"DELETE FROM group_membership WHERE group_id = $1 AND user_id = $2 RETURNING user_id",
+			[groupId.data, memberId.data],
+		);
+		if (!removed) return notFound(context);
+		if (chatGateway) {
+			try {
+				await chatGateway.revoke(`group:${groupId.data}`, memberId.data);
+			} catch (error) {
+				console.error("Failed to revoke removed group member's chat connection", error);
+			}
+		}
+		return context.body(null, 204);
 	});
 }

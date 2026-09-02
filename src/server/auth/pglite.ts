@@ -1,17 +1,14 @@
+import { mkdir } from "node:fs/promises";
 import type { DB } from "@better-auth/drizzle-adapter";
 import { PGlite } from "@electric-sql/pglite";
-import { mkdir } from "node:fs/promises";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/pglite";
 import { AUTH_MIGRATION_SQL } from "../db/auth-migration";
+import { CHAT_MIGRATION_SQL } from "../db/chat-migration";
 import { PLANNER_MIGRATION_SQL } from "../db/planner-migration";
-import { SOCIAL_MIGRATION_SQL } from "../db/social-migration";
 import * as schema from "../db/schema";
-import {
-	accountStatusSchema,
-	createAuthRuntime,
-	type PlannerQueryParameter,
-} from "./runtime";
+import { SOCIAL_MIGRATION_SQL } from "../db/social-migration";
+import { accountStatusSchema, createAuthRuntime, type PlannerQueryParameter } from "./runtime";
 
 type CreatePgliteRuntimeOptions = {
 	baseURL: string;
@@ -32,6 +29,7 @@ export async function createPgliteAuthRuntime({
 	await client.exec(AUTH_MIGRATION_SQL);
 	await client.exec(PLANNER_MIGRATION_SQL);
 	await client.exec(SOCIAL_MIGRATION_SQL);
+	await client.exec(CHAT_MIGRATION_SQL);
 
 	const database = drizzle(client, { schema });
 	const runtime = createAuthRuntime({
@@ -62,9 +60,9 @@ export async function createPgliteAuthRuntime({
 				const parsedStatus = accountStatusSchema.safeParse(record.status);
 				return parsedStatus.success
 					? {
-						id: record.id,
-						status: parsedStatus.data,
-					}
+							id: record.id,
+							status: parsedStatus.data,
+						}
 					: null;
 			},
 			setStatus: async (accountUsername, status) => {

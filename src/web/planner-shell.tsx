@@ -1,44 +1,55 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { addDays, addMonths, todayKey } from "./api/dates";
 import { api, type Category } from "./api/planner";
 import { BacklogScreen } from "./components/backlog";
+import { CategoryManagementScreen } from "./components/category-management";
 import { Drawer, TabBar, TopBar } from "./components/chrome";
 import { DiaryScreen } from "./components/diary";
-import { PlannerHome } from "./components/planner-home";
 import { PlannerDateNavigation } from "./components/planner-date-navigation";
+import { PlannerHome } from "./components/planner-home";
 import { PlannerSocialViews } from "./components/planner-social-views";
+import { RoutineManagementScreen } from "./components/routine-management";
 import { RoutinesScreen } from "./components/routines";
 import { Splash } from "./components/splash";
 import { StatsScreen } from "./components/stats";
 import { TimerScreen } from "./components/timer";
-import { TABS } from "./planner-tabs";
 import {
 	useBacklog,
 	useBacklogMutations,
 	useCategories,
+	useCategoryGroups,
 	useCategoryMutations,
 	useDiary,
 	useDiaryMutation,
 	usePlanner,
 	usePlannerMutations,
 	useRoutineMutations,
+	useRoutines,
+	useSettings,
 	useStats,
 	useTimer,
 } from "./hooks/planner";
+import { TABS } from "./planner-tabs";
 
 export function PlannerShell({ username }: { username: string }) {
 	const queryClient = useQueryClient();
 	const [view, setView] = useState("home");
 	const [date, setDate] = useState(todayKey());
 	const [menuOpen, setMenuOpen] = useState(false);
-	const [calendarView, setCalendarView] = useState<"주" | "월">("주");
 	const [monthAnchor, setMonthAnchor] = useState(todayKey());
+	const [restoreHomeFocus, setRestoreHomeFocus] = useState(false);
+	const homeHeadingRef = useRef<HTMLHeadingElement>(null);
+	const skipTimerOpenRefresh = useRef(false);
+	const closeMenu = useCallback(() => setMenuOpen(false), []);
 
 	const signedIn = true;
 	const planner = usePlanner(date, signedIn);
 	const categories = useCategories(signedIn);
+	const categoryGroups = useCategoryGroups(signedIn && view === "category-management");
 	const backlog = useBacklog(signedIn && view === "backlog");
+	const allRoutines = useRoutines(signedIn && view === "routine-management");
+	const settings = useSettings(signedIn);
 	const diary = useDiary(date, signedIn && view === "diary");
 	const monthStart = `${date.slice(0, 7)}-01`;
 	const monthEnd = addDays(addMonths(monthStart, 1), -1);
@@ -51,7 +62,36 @@ export function PlannerShell({ username }: { username: string }) {
 	const categoryMutations = useCategoryMutations();
 	const timer = useTimer();
 
-	const activeTimerTaskId = timer.active?.status === "running" ? timer.active.taskId ?? null : null;
+	const activeTimerTaskId =
+		timer.active?.status === "running" ? (timer.active.taskId ?? null) : null;
+	const activeTimerTaskTitle =
+		timer.active?.status === "running" ? (timer.active.taskTitle ?? null) : null;
+	const refetchTimer = timer.refetch;
+
+	useLayoutEffect(() => {
+		if (view === "diary" || view === "timer") {
+			window.scrollTo({ top: 0, left: 0 });
+		}
+	}, [view]);
+
+	useEffect(() => {
+		if (view !== "timer") {
+			return;
+		}
+		if (skipTimerOpenRefresh.current) {
+			skipTimerOpenRefresh.current = false;
+			return;
+		}
+		void refetchTimer();
+	}, [view, refetchTimer]);
+
+	useEffect(() => {
+		if (view !== "home" || !restoreHomeFocus) {
+			return;
+		}
+		homeHeadingRef.current?.focus();
+		setRestoreHomeFocus(false);
+	}, [view, restoreHomeFocus]);
 
 	const timerLabelFor = (taskId: string) => {
 		if (timer.active?.taskId !== taskId) {
@@ -84,9 +124,16 @@ export function PlannerShell({ username }: { username: string }) {
 		}
 	};
 
+	const returnHome = () => {
+		setMonthAnchor(date);
+		setRestoreHomeFocus(true);
+		setView("home");
+	};
+
 	const startTimerFor = (taskId: string) => {
-		setView("timer");
+		skipTimerOpenRefresh.current = true;
 		timer.begin(taskId);
+		setView("timer");
 	};
 
 	const [splashDone, setSplashDone] = useState(false);
@@ -107,10 +154,9 @@ export function PlannerShell({ username }: { username: string }) {
 					view={view}
 					date={date}
 					monthAnchor={monthAnchor}
-					calendarView={calendarView}
 					planner={planner.data}
 					username={username}
-					onCalendarView={setCalendarView}
+					homeHeadingRef={homeHeadingRef}
 					onPrev={() => (view === "calendar" ? shiftMonth(-1) : shiftWeek(-1))}
 					onNext={() => (view === "calendar" ? shiftMonth(1) : shiftWeek(1))}
 					onSelectDate={onSelectDate}
@@ -163,10 +209,41 @@ export function PlannerShell({ username }: { username: string }) {
 							frequency: routine.frequency ?? { type: "daily" },
 							startDate: routine.startDate ?? date,
 							endDate: routine.endDate ?? null,
+							status: "active",
 						}))}
 						loading={categories.isLoading}
 						error={categories.isError}
 						onCreate={(body) => routineMutations.createRoutine.mutate(body)}
+					/>
+				)}
+
+				{view === "category-management" && (
+					<CategoryManagementScreen
+						categories={categories.data?.categories}
+						groups={categoryGroups.data?.groups}
+						loading={categories.isLoading}
+						error={categories.isError}
+						groupsLoading={categoryGroups.isLoading}
+						groupsError={categoryGroups.isError}
+						onBack={returnHome}
+						onUpdate={(id, body) => categoryMutations.updateCategory.mutateAsync({ id, body })}
+						onReorder={(id, position) =>
+							categoryMutations.reorderCategory.mutateAsync({ id, position })
+						}
+						onDelete={(id) => categoryMutations.deleteCategory.mutateAsync(id)}
+					/>
+				)}
+
+				{view === "routine-management" && (
+					<RoutineManagementScreen
+						categories={categories.data?.categories}
+						routines={allRoutines.data?.routines}
+						loading={categories.isLoading || allRoutines.isLoading}
+						error={categories.isError || allRoutines.isError}
+						onBack={returnHome}
+						onUpdate={(id, body) => routineMutations.updateRoutine.mutateAsync({ id, body })}
+						onStatus={(id, status) => routineMutations.setRoutineStatus.mutateAsync({ id, status })}
+						onDelete={(id) => routineMutations.deleteRoutine.mutateAsync(id)}
 					/>
 				)}
 
@@ -203,8 +280,12 @@ export function PlannerShell({ username }: { username: string }) {
 						diary={diary.data}
 						loading={diary.isLoading}
 						error={diary.isError}
-						onSave={(body) => diaryMutation.mutate(body)}
+						onSave={(body) => diaryMutation.mutateAsync(body)}
+						onRetry={() => {
+							void diary.refetch();
+						}}
 						onSelectDate={setDate}
+						onBack={returnHome}
 					/>
 				)}
 
@@ -212,7 +293,15 @@ export function PlannerShell({ username }: { username: string }) {
 					<TimerScreen
 						planner={planner.data}
 						activeTaskId={activeTimerTaskId}
+						activeTaskTitle={activeTimerTaskTitle}
 						elapsedSeconds={timer.elapsedSeconds}
+						hydrating={timer.isHydrating}
+						loadError={timer.hasLoadError}
+						actionError={timer.hasActionError}
+						onRetry={() => {
+							void timer.refetch();
+						}}
+						onBack={returnHome}
 						onStart={timer.begin}
 						onStop={timer.finish}
 						pending={timer.isPending}
@@ -222,8 +311,20 @@ export function PlannerShell({ username }: { username: string }) {
 			</main>
 			<TabBar
 				items={TABS}
-				view={view}
+				view={
+					view === "diary" ||
+					view === "timer" ||
+					view === "category-management" ||
+					view === "routine-management"
+						? "home"
+						: view
+				}
 				onChange={(key) => {
+					if (key === "home" && (view === "diary" || view === "timer")) {
+						returnHome();
+						return;
+					}
+					setRestoreHomeFocus(false);
 					setView(key);
 					if (key === "calendar") {
 						setMonthAnchor(date);
@@ -232,16 +333,20 @@ export function PlannerShell({ username }: { username: string }) {
 			/>
 			<Drawer
 				open={menuOpen}
-				onClose={() => setMenuOpen(false)}
+				onClose={closeMenu}
+				onNavigate={(nextView) => {
+					setRestoreHomeFocus(false);
+					setView(nextView);
+				}}
 				userName={username}
-				onSignOut={() => {
-					api
-						.signOut()
-						.catch(() => undefined)
-						.finally(() => {
-							queryClient.clear();
-							setMenuOpen(false);
-						});
+				settings={settings.query.data}
+				settingsError={settings.query.isError}
+				savingSettings={settings.save.isPending}
+				onSaveSettings={(body) => settings.save.mutateAsync(body)}
+				onSignOut={async () => {
+					await api.signOut();
+					queryClient.clear();
+					queryClient.setQueryData(["session"], null);
 				}}
 			/>
 		</div>

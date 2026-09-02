@@ -74,6 +74,7 @@ export const routine = pgTable(
 		endDate: text("end_date"),
 		frequencyType: text("frequency_type").notNull(),
 		frequencyDays: jsonb("frequency_days").$type<number[]>().notNull(),
+		status: text("status").default("active").notNull(),
 		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 	},
 	(table) => [index("routine_owner_date_idx").on(table.ownerId, table.startDate)],

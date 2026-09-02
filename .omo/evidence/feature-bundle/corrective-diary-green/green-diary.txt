@@ -1,0 +1,36 @@
+GREEN Diary post-type-fix UX evidence
+URL: http://127.0.0.1:5173
+Credentials supplied by environment and not recorded.
+PASS phone-small: Diary computed surface is white
+PASS phone-small: violet sheet handle is absent
+PASS phone-small: selected mood exposes aria-pressed
+PASS phone-small: Diary back target is visible/in-bounds and >=44px
+PASS phone-small: Diary has no horizontal overflow
+PASS phone-small: Diary exit restores selected Home date and heading focus
+PASS phone: Diary computed surface is white
+PASS phone: violet sheet handle is absent
+PASS phone: selected mood exposes aria-pressed
+PASS phone: Diary back target is visible/in-bounds and >=44px
+PASS phone: Diary has no horizontal overflow
+PASS phone: Diary exit restores selected Home date and heading focus
+PASS tablet: Diary computed surface is white
+PASS tablet: violet sheet handle is absent
+PASS tablet: selected mood exposes aria-pressed
+PASS tablet: Diary back target is visible/in-bounds and >=44px
+PASS tablet: Diary has no horizontal overflow
+PASS tablet: Diary exit restores selected Home date and heading focus
+PASS desktop-small: Diary computed surface is white
+PASS desktop-small: violet sheet handle is absent
+PASS desktop-small: selected mood exposes aria-pressed
+PASS desktop-small: Diary back target is visible/in-bounds and >=44px
+PASS desktop-small: Diary has no horizontal overflow
+PASS desktop-small: Diary exit restores selected Home date and heading focus
+PASS desktop-wide: Diary computed surface is white
+PASS desktop-wide: violet sheet handle is absent
+PASS desktop-wide: selected mood exposes aria-pressed
+PASS desktop-wide: Diary back target is visible/in-bounds and >=44px
+PASS desktop-wide: Diary has no horizontal overflow
+PASS desktop-wide: Diary exit restores selected Home date and heading focus
+PASS Diary draft exits issue zero PUT requests
+PASS browser context closed
+GREEN - white Diary and draft-safe accessible exit

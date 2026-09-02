@@ -3,24 +3,64 @@
    ========================================================================== */
 
 .timer {
+	--timer-content-width: 26rem;
+	--timer-picker-height: 18rem;
+
 	display: flex;
 	flex-direction: column;
-	min-height: calc(100vh - 130px);
-	background: var(--ink);
-	color: var(--ink-inverse);
+	min-width: 0;
+	min-height: calc(100dvh - var(--space-12) - var(--space-12) - var(--space-8));
 	padding: var(--space-5);
 	border-radius: var(--radius-lg);
+	background: var(--ink);
+	color: var(--ink-inverse);
 }
 
-.timer__head {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.timer .subpage-head__back {
+	color: var(--ink-inverse);
 }
 
-.timer__head h2 {
+.timer .subpage-head__back:hover {
+	background: var(--ink-soft);
+}
+
+.timer__announcement {
+	min-height: var(--space-5);
+	margin: var(--space-2) 0 0;
+	color: var(--muted);
+	font: var(--text-meta);
+	text-align: center;
+}
+
+.timer__loading {
+	flex: 1;
+	display: grid;
+	align-content: center;
+	justify-items: center;
+	gap: var(--space-4);
+	min-width: 0;
+	text-align: center;
+}
+
+.timer__loading p {
 	margin: 0;
-	font: var(--text-title);
+	font: var(--text-task);
+}
+
+.timer .error-box {
+	border-color: var(--muted);
+	background: var(--ink-soft);
+}
+
+.timer .btn-ghost {
+	min-height: var(--space-12);
+	border-color: var(--muted);
+	color: var(--ink-inverse);
+}
+
+.timer .btn-ghost:hover {
+	border-color: var(--line);
+	background: var(--ink-soft);
 }
 
 .timer__body {
@@ -30,12 +70,15 @@
 	align-items: center;
 	justify-content: center;
 	gap: var(--space-2);
+	min-width: 0;
 	text-align: center;
 }
 
 .timer__task {
+	margin: 0;
 	font: var(--text-task);
 	font-weight: 700;
+	overflow-wrap: anywhere;
 }
 
 .timer__task--idle {
@@ -43,22 +86,24 @@
 }
 
 .timer__clock {
-	font-variant-numeric: tabular-nums;
+	margin: 0;
+	font-size: clamp(var(--space-12), 12vw, calc(var(--space-12) + var(--space-6)));
 	font-weight: 800;
-	font-size: clamp(3rem, 12vw, 4.5rem);
+	font-variant-numeric: tabular-nums;
 	line-height: 1.1;
 	letter-spacing: 0.01em;
 }
 
 .timer__rule {
-	width: min(420px, 80%);
-	border: none;
-	border-top: 1px solid rgba(255, 255, 255, 0.25);
+	width: min(100%, var(--timer-content-width));
 	margin: var(--space-4) 0;
+	border: none;
+	border-top: 1px solid var(--muted);
 }
 
 .timer__actions {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 	gap: var(--space-4);
 	padding-bottom: var(--space-6);
@@ -67,7 +112,9 @@
 .pill-btn {
 	display: inline-flex;
 	align-items: center;
+	justify-content: center;
 	gap: var(--space-2);
+	min-height: var(--space-12);
 	padding: var(--space-3) var(--space-6);
 	border-radius: var(--radius-pill);
 	background: var(--ink-soft);
@@ -78,13 +125,19 @@
 		transform var(--speed-fast) var(--ease-pop);
 }
 
-.pill-btn:hover {
-	transform: translateY(-2px);
+button.pill-btn:hover {
+	transform: translateY(calc(var(--space-1) / -2));
+}
+
+button.pill-btn:disabled {
+	color: var(--muted);
+	cursor: not-allowed;
+	transform: none;
 }
 
 .pill-btn svg {
-	width: 15px;
-	height: 15px;
+	width: var(--space-4);
+	height: var(--space-4);
 }
 
 .pill-btn--live svg {
@@ -92,7 +145,7 @@
 }
 
 .pill-btn--done {
-	background: #2a2a2a;
+	background: var(--ink-soft);
 }
 
 .pill-btn--done svg {
@@ -103,25 +156,76 @@
 .timer__pick {
 	display: grid;
 	gap: var(--space-2);
-	width: min(420px, 100%);
-	max-height: 45vh;
+	width: min(100%, var(--timer-content-width));
+	max-height: var(--timer-picker-height);
+	margin-inline: auto;
+	padding: 0;
+	border: 0;
 	overflow-y: auto;
+}
+
+.timer__pick legend {
+	margin-bottom: var(--space-2);
+	color: var(--muted);
+	font: var(--text-meta);
+	text-align: center;
 }
 
 .timer__pick button {
 	display: flex;
 	align-items: center;
 	gap: var(--space-3);
+	width: 100%;
+	min-height: var(--space-12);
 	padding: var(--space-3);
 	border-radius: var(--radius-md);
-	background: rgba(255, 255, 255, 0.06);
+	background: var(--ink-soft);
 	font: var(--text-task);
 	font-weight: 600;
-	transition: background var(--speed-fast);
+	text-align: left;
+	transition:
+		background var(--speed-fast),
+		color var(--speed-fast);
 }
 
 .timer__pick button:hover {
-	background: rgba(255, 255, 255, 0.12);
+	background: var(--surface);
+	color: var(--ink);
+}
+
+.timer__pick button:disabled {
+	color: var(--muted);
+	cursor: not-allowed;
+}
+
+.timer__pick button > span {
+	display: grid;
+	gap: var(--space-1);
+	min-width: 0;
+}
+
+.timer__pick strong,
+.timer__pick small {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.timer__pick small {
+	color: var(--muted);
+	font: var(--text-meta);
+}
+
+.timer__empty {
+	margin: 0;
+	padding: var(--space-5);
+	color: var(--muted);
+	font: var(--text-meta);
+	text-align: center;
+}
+
+.timer__error {
+	margin: var(--space-4) 0 0;
 }
 
 /* ==========================================================================
@@ -131,13 +235,13 @@
 .task__timer-live {
 	display: inline-flex;
 	align-items: center;
-	gap: 4px;
+	gap: var(--space-1);
 	color: var(--timer-live);
 	font: var(--text-caption);
 	font-weight: 800;
 }
 
 .task__timer-live svg {
-	width: 11px;
-	height: 11px;
+	width: var(--space-3);
+	height: var(--space-3);
 }

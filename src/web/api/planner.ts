@@ -23,6 +23,20 @@ export type Category = {
 	name: string;
 	color: string;
 	visibility: "private" | "group";
+	position?: number;
+	groupId?: string | null;
+};
+
+export type CategoryUpdateInput = {
+	name?: string;
+	color?: string;
+	visibility?: Category["visibility"];
+	groupId?: string | null;
+};
+
+export type CategoryGroup = {
+	id: string;
+	name: string;
 };
 
 export type Task = {
@@ -57,6 +71,20 @@ export type Routine = {
 	frequency: Frequency;
 	startDate: string;
 	endDate: string | null;
+	status: "active" | "paused";
+};
+
+export type PlannerSettings = {
+	theme: "system" | "light" | "dark";
+	notificationsEnabled: boolean;
+};
+
+export type RoutineInput = {
+	categoryId: string;
+	title: string;
+	startDate: string;
+	endDate?: string;
+	frequency: Frequency;
 };
 
 export type PlannerDay = {
@@ -141,17 +169,39 @@ export const api = {
 	/* ---- categories ---- */
 	createCategory: (body: { name: string; color: string; visibility?: Category["visibility"] }) =>
 		requestJson<Category>("/api/categories", { method: "POST", body: JSON.stringify(body) }),
+	categoryGroups: () => requestJson<{ groups: CategoryGroup[] }>("/api/groups"),
+	updateCategory: (id: string, body: CategoryUpdateInput) =>
+		requestJson<{
+			category: Partial<Category> & Pick<Category, "id">;
+			categories: Array<Partial<Category> & Pick<Category, "id">>;
+		}>(`/api/categories/${id}`, { method: "PATCH", body: JSON.stringify(body) }),
+	reorderCategory: (id: string, position: number) =>
+		requestJson<{
+			category: { id: string; position: number };
+			categories: Array<{ id: string; position: number }>;
+		}>(`/api/categories/${id}`, {
+			method: "PATCH",
+			body: JSON.stringify({ position }),
+		}),
+	deleteCategory: (id: string) => requestJson<void>(`/api/categories/${id}`, { method: "DELETE" }),
 
 	/* ---- planner day ---- */
-	planner: (date: string) => requestJson<PlannerDay>(`/api/planner?date=${date}`),
+	planner: async (date: string) => {
+		const planner = await requestJson<PlannerDay>(`/api/planner?date=${date}`);
+		return {
+			...planner,
+			categories: planner.categories.map((category) => ({
+				...category,
+				tasks: category.tasks ?? [],
+			})),
+		};
+	},
 
 	/* ---- tasks ---- */
 	createTask: (body: { categoryId: string; title: string; date: string | null }) =>
 		requestJson<Task>("/api/tasks", { method: "POST", body: JSON.stringify(body) }),
-	updateTask: (
-		id: string,
-		body: { title?: string; date?: string | null; position?: number },
-	) => requestJson<Task>(`/api/tasks/${id}`, { method: "PATCH", body: JSON.stringify(body) }),
+	updateTask: (id: string, body: { title?: string; date?: string | null; position?: number }) =>
+		requestJson<Task>(`/api/tasks/${id}`, { method: "PATCH", body: JSON.stringify(body) }),
 	setCompletion: (id: string, completed: boolean) =>
 		requestJson<Task>(`/api/tasks/${id}/completion`, {
 			method: "PUT",
@@ -159,13 +209,25 @@ export const api = {
 		}),
 
 	/* ---- routines ---- */
-	createRoutine: (body: { categoryId: string; title: string; startDate: string; frequency: Frequency }) =>
+	routines: () => requestJson<{ routines: Routine[] }>("/api/routines"),
+	createRoutine: (body: RoutineInput) =>
 		requestJson<Routine>("/api/routines", { method: "POST", body: JSON.stringify(body) }),
+	updateRoutine: (id: string, body: RoutineInput) =>
+		requestJson<Routine>(`/api/routines/${id}`, {
+			method: "PATCH",
+			body: JSON.stringify(body),
+		}),
+	setRoutineStatus: (id: string, status: Routine["status"]) =>
+		requestJson<Routine>(`/api/routines/${id}`, {
+			method: "PATCH",
+			body: JSON.stringify({ status }),
+		}),
+	deleteRoutine: (id: string) => requestJson<void>(`/api/routines/${id}`, { method: "DELETE" }),
 	setRoutineOccurrence: (routineId: string, date: string, completed: boolean) =>
-		requestJson<RoutineOccurrence>(
-			`/api/routines/${routineId}/occurrences/${date}/completion`,
-			{ method: "PUT", body: JSON.stringify({ completed }) },
-		),
+		requestJson<RoutineOccurrence>(`/api/routines/${routineId}/occurrences/${date}/completion`, {
+			method: "PUT",
+			body: JSON.stringify({ completed }),
+		}),
 
 	/* ---- backlog ---- */
 	backlog: () => requestJson<{ tasks: Task[] }>("/api/backlog"),
@@ -179,6 +241,7 @@ export const api = {
 		}),
 
 	/* ---- timer ---- */
+	timerActive: () => requestJson<TimerState>("/api/timer/active"),
 	timerStart: (taskId: string) =>
 		requestJson<TimerState>(`/api/tasks/${taskId}/timer/start`, {
 			method: "POST",
@@ -188,6 +251,14 @@ export const api = {
 		requestJson<TimerState>(`/api/tasks/${taskId}/timer/stop`, {
 			method: "POST",
 			body: "{}",
+		}),
+
+	/* ---- settings ---- */
+	settings: () => requestJson<PlannerSettings>("/api/settings"),
+	updateSettings: (body: PlannerSettings) =>
+		requestJson<PlannerSettings>("/api/settings", {
+			method: "PUT",
+			body: JSON.stringify(body),
 		}),
 
 	/* ---- stats ---- */

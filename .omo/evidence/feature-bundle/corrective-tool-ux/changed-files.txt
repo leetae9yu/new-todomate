@@ -1,0 +1,13 @@
+Corrective planner/tool UX changed files
+ M src/web/api/planner.ts
+ M src/web/components/chrome.tsx
+ M src/web/components/diary.tsx
+ M src/web/components/planner-date-navigation.tsx
+ M src/web/components/timer.tsx
+ M src/web/hooks/planner.ts
+ M src/web/planner-shell.tsx
+ M src/web/styles/diary.css
+ M src/web/styles/shell.css
+ M src/web/styles/timer.css
+ M src/web/styles/widgets.css
+?? script/qa/feature-bundle-qa.mjs

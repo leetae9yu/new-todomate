@@ -1,0 +1,7 @@
+GREEN responsive layout evidence
+URL: http://127.0.0.1:5173
+Credentials supplied by environment and not recorded.
+PASS responsive-layout-qa.mjs at 320, 390, 768, 1024, 1440px
+PASS eight primary tabs preserved without horizontal clipping
+PASS Home and Calendar date navigation remain in bounds
+PASS browser context closed

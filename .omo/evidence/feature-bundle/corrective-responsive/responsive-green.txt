@@ -1,0 +1,1 @@
+PASS responsive layout at 320, 390, 768, 1024, 1440px

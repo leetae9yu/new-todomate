@@ -1,0 +1,82 @@
+Command: bun test tests/settings.integration.test.ts
+
+bun test v1.3.14 (0d9b296a)
+
+tests/settings.integration.test.ts:
+18 | 		await harness.close();
+19 | 	}, 20_000);
+20 |
+21 | 	test("persists strict session-scoped settings through a fresh GET", async () => {
+22 | 		const defaults = await harness.demo("/api/settings");
+23 | 		expect(defaults.status).toBe(200);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/settings.integration.test.ts:23:27)
+(fail) settings and planner management API > persists strict session-scoped settings through a fresh GET [3349.63ms]
+57 | 		const group = await createGroup(harness, "함께 관리할 그룹", "demo");
+58 | 		const renamed = await harness.demo(`/api/categories/${category.id}`, {
+59 | 			method: "PATCH",
+60 | 			body: { name: "바뀐 이름", color: "#2C34FF" },
+61 | 		});
+62 | 		expect(renamed.status).toBe(200);
+                              ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/settings.integration.test.ts:62:26)
+(fail) settings and planner management API > renames, recolors, and changes category visibility only for a current group member [2266.98ms]
+ 96 |
+ 97 | 		const reordered = await harness.demo(`/api/categories/${third.id}`, {
+ 98 | 			method: "PATCH",
+ 99 | 			body: { position: 0 },
+100 | 		});
+101 | 		expect(reordered.status).toBe(200);
+                                 ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/settings.integration.test.ts:101:28)
+(fail) settings and planner management API > reorders categories authoritatively and isolates foreign category mutations [2251.69ms]
+141 | 			{ method: "PUT", body: { completed: true } },
+142 | 		);
+143 | 		expect(completed.status).toBe(200);
+144 |
+145 | 		const deleted = await harness.demo(`/api/categories/${category.id}`, { method: "DELETE" });
+146 | 		expect(deleted.status).toBe(204);
+                               ^
+error: expect(received).toBe(expected)
+
+Expected: 204
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/settings.integration.test.ts:146:26)
+(fail) settings and planner management API > deletes a non-empty category with its task, routine, and occurrence history [2293.45ms]
+176 | 			{ method: "PUT", body: { completed: true } },
+177 | 		);
+178 | 		expect(completed.status).toBe(200);
+179 |
+180 | 		const allRoutines = await harness.demo("/api/routines");
+181 | 		expect(allRoutines.status).toBe(200);
+                                   ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 404
+
+      at <anonymous> (/home/opc/projects/fake-todomate/tests/settings.integration.test.ts:181:30)
+(fail) settings and planner management API > edits, pauses, resumes, and deletes routines without exposing them to another owner [2241.95ms]
+
+ 0 pass
+ 5 fail
+ 19 expect() calls
+Ran 5 tests across 1 file. [12.80s]
+
+EXIT_CODE=1

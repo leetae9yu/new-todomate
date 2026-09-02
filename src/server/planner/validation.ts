@@ -13,14 +13,33 @@ export const localDateSchema = z
 		return date.toISOString().slice(0, 10) === value;
 	}, "Expected an exact local date in YYYY-MM-DD format");
 
-export const categorySchema = z
-	.object({
-		name: z.string().trim().min(1).max(100),
-		color: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
-		visibility: z.enum(["private", "group"]),
-		groupId: z.uuid().optional(),
-	})
-	.strict();
+const categoryFields = {
+	name: z.string().trim().min(1).max(100),
+	color: z.string().regex(/^#[0-9A-Fa-f]{6}$/),
+	visibility: z.enum(["private", "group"]),
+	groupId: z.uuid().nullable().optional(),
+};
+
+export const categorySchema = z.object(categoryFields).strict();
+
+export const categoryPatchSchema = z.union([
+	z
+		.object({
+			name: categoryFields.name.optional(),
+			color: categoryFields.color.optional(),
+			visibility: categoryFields.visibility.optional(),
+			groupId: categoryFields.groupId,
+		})
+		.strict()
+		.refine(
+			(value) =>
+				value.name !== undefined ||
+				value.color !== undefined ||
+				value.visibility !== undefined ||
+				value.groupId !== undefined,
+		),
+	z.object({ position: z.number().int().min(0) }).strict(),
+]);
 
 export const taskSchema = z
 	.object({
@@ -67,6 +86,11 @@ export const routineSchema = z
 	})
 	.strict()
 	.refine((value) => !value.endDate || value.endDate >= value.startDate, "Invalid date range");
+
+export const routinePatchSchema = z.union([
+	routineSchema,
+	z.object({ status: z.enum(["active", "paused"]) }).strict(),
+]);
 
 export const diarySchema = z
 	.object({

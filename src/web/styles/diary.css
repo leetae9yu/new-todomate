@@ -1,22 +1,26 @@
 /* ==========================================================================
-   Diary
+   Diary — neutral, state-exclusive reading and editing surface
    ========================================================================== */
 
 .diary {
 	display: grid;
 	gap: var(--space-4);
+	min-width: 0;
 }
 
 .diary__week {
 	display: grid;
-	grid-template-columns: repeat(7, 1fr);
+	grid-template-columns: repeat(7, minmax(0, 1fr));
 	gap: var(--space-1);
+	min-width: 0;
 }
 
 .diary__day {
 	display: grid;
 	justify-items: center;
 	gap: var(--space-1);
+	width: 100%;
+	min-width: 0;
 	padding: var(--space-2) 0;
 	border-radius: var(--radius-sm);
 	transition: background var(--speed-fast);
@@ -27,41 +31,29 @@
 }
 
 .diary__emoji {
-	font-size: 22px;
-	line-height: 1.2;
-	height: 26px;
-}
-
-.diary__emoji--none {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 22px;
-	height: 22px;
+	width: var(--space-6);
+	height: var(--space-6);
+	font: var(--text-title);
+}
+
+.diary__emoji--none {
 	border-radius: var(--radius-sm);
 	background: var(--surface);
-	font-size: 12px;
 	color: var(--muted);
+	font: var(--text-meta);
 }
 
-/* Diary sheet: violet-deep panel */
 .diary-sheet {
-	position: sticky;
-	bottom: var(--space-4);
-	margin-top: var(--space-4);
-	padding: var(--space-6) var(--space-5) var(--space-8);
-	border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-	background: var(--violet-deep);
-	color: rgba(255, 255, 255, 0.92);
-	box-shadow: var(--shadow-sheet);
-}
-
-.diary-sheet__handle {
-	width: 40px;
-	height: 4px;
-	border-radius: var(--radius-pill);
-	background: rgba(255, 255, 255, 0.35);
-	margin: -8px auto var(--space-4);
+	display: grid;
+	gap: var(--space-5);
+	padding: var(--space-6) var(--space-5);
+	border: 1px solid var(--line);
+	border-radius: var(--radius-lg);
+	background: var(--bg);
+	color: var(--ink);
 }
 
 .diary-sheet h3 {
@@ -70,45 +62,99 @@
 	text-align: center;
 }
 
+.diary-sheet__loading,
+.diary-sheet__state {
+	display: grid;
+	gap: var(--space-4);
+	min-width: 0;
+}
+
+.diary-sheet__loading .skeleton {
+	width: 100%;
+}
+
 .diary-sheet__mood {
 	display: block;
+	font-size: var(--space-12);
+	line-height: 1;
 	text-align: center;
-	font-size: 48px;
-	line-height: 1.2;
-	margin: var(--space-4) 0;
 }
 
 .diary-sheet__body {
+	margin: 0;
 	font: var(--text-task);
 	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+}
+
+.diary-sheet__state > :is(.btn-primary, .btn-ghost) {
+	justify-self: start;
+}
+
+.diary .btn-primary,
+.diary .btn-ghost {
+	min-height: var(--space-12);
+}
+
+.diary .btn-ghost:disabled {
+	color: var(--muted);
+	cursor: not-allowed;
 }
 
 .diary-edit {
 	display: grid;
 	gap: var(--space-4);
+	min-width: 0;
+}
+
+.diary-edit__field {
+	display: grid;
+	gap: var(--space-2);
+	min-width: 0;
+	font: var(--text-label);
 }
 
 .diary-edit input[type="text"],
 .diary-edit textarea {
+	width: 100%;
+	min-width: 0;
 	padding: var(--space-3);
-	border: 1.5px solid rgba(255, 255, 255, 0.4);
+	border: 1px solid var(--line);
 	border-radius: var(--radius-md);
-	background: rgba(255, 255, 255, 0.12);
-	color: #fff;
+	background: var(--surface);
+	color: var(--ink);
 	font: var(--text-task);
+}
+
+.diary-edit textarea {
+	resize: vertical;
 }
 
 .diary-edit textarea::placeholder,
 .diary-edit input[type="text"]::placeholder {
-	color: rgba(255, 255, 255, 0.6);
+	color: var(--muted);
 }
 
-.diary-edit .btn-primary {
-	background: #fff;
-	color: var(--violet-deep);
+.diary-edit__actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: var(--space-2);
 }
 
 .mood-picker {
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.mood-picker legend {
+	margin-bottom: var(--space-2);
+	font: var(--text-label);
+}
+
+.mood-picker__options {
 	display: flex;
 	flex-wrap: wrap;
 	gap: var(--space-2);
@@ -118,21 +164,34 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 38px;
-	height: 38px;
+	width: var(--space-12);
+	height: var(--space-12);
+	border: 1px solid var(--line);
 	border-radius: var(--radius-sm);
-	background: rgba(255, 255, 255, 0.12);
-	font-size: 18px;
+	background: var(--surface);
+	font: var(--text-title);
 	transition:
 		background var(--speed-fast),
+		border-color var(--speed-fast),
 		transform var(--speed-fast) var(--ease-pop);
 }
 
 .mood-picker button:hover {
-	background: rgba(255, 255, 255, 0.24);
-	transform: scale(1.08);
+	background: var(--surface-strong);
+	transform: scale(1.04);
 }
 
 .mood-picker button.is-on {
-	background: #fff;
+	border-color: var(--ink);
+	background: var(--surface-strong);
+}
+
+@media (max-width: 480px) {
+	.diary-sheet {
+		padding: var(--space-5) var(--space-4);
+	}
+
+	.diary-edit__actions > * {
+		flex: 1 1 auto;
+	}
 }

@@ -3,10 +3,41 @@
    ========================================================================== */
 
 .shell {
+	--focus-ring: var(--violet);
+
 	display: grid;
 	grid-template-rows: auto 1fr;
 	min-height: 100vh;
 	min-width: 0;
+}
+
+.shell :where(button, input, textarea, select, [tabindex="-1"]):focus-visible,
+.shell .date-head h2:focus {
+	outline: calc(var(--space-1) / 2) solid var(--focus-ring);
+	outline-offset: var(--space-1);
+}
+
+.subpage-head {
+	display: grid;
+	grid-template-columns: var(--space-12) minmax(0, 1fr) var(--space-12);
+	align-items: center;
+	min-width: 0;
+}
+
+.subpage-head__back {
+	justify-self: start;
+}
+
+.subpage-head h2 {
+	min-width: 0;
+	margin: 0;
+	font: var(--text-title);
+	text-align: center;
+}
+
+.subpage-head__trailing {
+	width: var(--space-12);
+	height: var(--space-12);
 }
 
 .topbar {

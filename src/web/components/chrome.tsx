@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight, Menu } from "lucide-react";
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode, Ref } from "react";
 import { weekdayOf } from "../api/dates";
 import { BrandCloud, CloudMark } from "./ui";
 
@@ -20,25 +20,21 @@ export function Profile({ name, motto }: { name: string; motto: string }) {
 	);
 }
 
-/** Date header — gradient badge, title, segmented view toggle, chevrons. */
+/** Date header — gradient badge, title, and previous/next navigation. */
 export function DateHead({
 	title,
 	badge,
-	view,
-	onView,
 	onPrev,
 	onNext,
 	dayNumber,
-	variants = ["월", "주"],
+	headingRef,
 }: {
 	title: string;
 	badge?: string | undefined;
-	view: string;
-	onView?: (view: string) => void;
 	onPrev: () => void;
 	onNext: () => void;
 	dayNumber?: number | undefined;
-	variants?: string[];
+	headingRef?: Ref<HTMLHeadingElement> | undefined;
 }) {
 	return (
 		<header className="date-head">
@@ -46,40 +42,36 @@ export function DateHead({
 				<span className="date-badge" aria-hidden="true">
 					{badge ?? (dayNumber !== undefined ? String(dayNumber) : "")}
 				</span>
-				<h2>{title}</h2>
+				<h2 ref={headingRef} tabIndex={headingRef ? -1 : undefined}>
+					{title}
+				</h2>
 			</div>
-			{onView ? (
-				<div className="date-head__controls">
-					<nav className="segment" aria-label="뷰 전환">
-						{variants.map((variant) => (
-							<button
-								key={variant}
-								type="button"
-								className={`segment__item${view === variant ? " segment__item--active" : ""}`}
-								onClick={() => onView(variant)}
-								aria-pressed={view === variant}
-							>
-								{variant}
-							</button>
-						))}
-					</nav>
-					<button type="button" className="icon-btn" onClick={onPrev} aria-label="이전">
-						<ChevronLeft />
-					</button>
-					<button type="button" className="icon-btn" onClick={onNext} aria-label="다음">
-						<ChevronRight />
-					</button>
-				</div>
-			) : (
-				<div className="date-head__controls">
-					<button type="button" className="icon-btn" onClick={onPrev} aria-label="이전">
-						<ChevronLeft />
-					</button>
-					<button type="button" className="icon-btn" onClick={onNext} aria-label="다음">
-						<ChevronRight />
-					</button>
-				</div>
-			)}
+			<div className="date-head__controls">
+				<button type="button" className="icon-btn" onClick={onPrev} aria-label="이전">
+					<ChevronLeft aria-hidden="true" />
+				</button>
+				<button type="button" className="icon-btn" onClick={onNext} aria-label="다음">
+					<ChevronRight aria-hidden="true" />
+				</button>
+			</div>
+		</header>
+	);
+}
+
+/** Shared Diary/Timer header with a native, 44px Home return control. */
+export function SubpageHeader({ title, onBack }: { title: string; onBack: () => void }) {
+	return (
+		<header className="subpage-head">
+			<button
+				type="button"
+				className="icon-btn subpage-head__back"
+				onClick={onBack}
+				aria-label="홈으로 돌아가기"
+			>
+				<ChevronLeft aria-hidden="true" />
+			</button>
+			<h2>{title}</h2>
+			<span className="subpage-head__trailing" aria-hidden="true" />
 		</header>
 	);
 }
@@ -119,13 +111,16 @@ export function WeekStrip({
 							aria-current={isSelected ? "date" : undefined}
 							aria-label={date}
 						>
-							<span className={`week-strip__weekday${state ? ` week-strip__weekday--${state}` : ""}`}>
+							<span
+								className={`week-strip__weekday${state ? ` week-strip__weekday--${state}` : ""}`}
+							>
 								{["일", "월", "화", "수", "목", "금", "토"][weekday]}
 							</span>
 							<CloudMark done={Boolean(color)} />
 							<span
-								className={`week-strip__num${isToday ? " week-strip__num--today" : ""}${state && !isToday ? ` week-strip__num--${state}` : ""
-									}`}
+								className={`week-strip__num${isToday ? " week-strip__num--today" : ""}${
+									state && !isToday ? ` week-strip__num--${state}` : ""
+								}`}
 							>
 								{Number(date.split("-")[2])}
 							</span>
@@ -165,13 +160,7 @@ export function TabBar({
 	);
 }
 
-export function TopBar({
-	userName,
-	onOpenMenu,
-}: {
-	userName: string;
-	onOpenMenu: () => void;
-}) {
+export function TopBar({ userName, onOpenMenu }: { userName: string; onOpenMenu: () => void }) {
 	return (
 		<header className="topbar">
 			<div className="topbar__logo">
