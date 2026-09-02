@@ -1,0 +1,33 @@
+GREEN — deployed Cloudflare responsive UI
+
+Deployment:
+- URL: https://new-todomate.nobae0905.workers.dev
+- Cloudflare Worker version: e2b5b654-7dfe-440f-8df3-86c44790466b
+
+Responsive command:
+APP_URL=https://new-todomate.nobae0905.workers.dev \
+QA_USERNAME=admin \
+EVIDENCE_DIR=.omo/evidence/responsive/live \
+bun script/qa/responsive-layout-qa.mjs
+
+Result:
+exit code 0
+PASS responsive layout at 320, 390, 768, 1024, 1440px
+
+PWA command:
+APP_URL=https://new-todomate.nobae0905.workers.dev \
+EXPECTED_TASK="배포 확인 647740" \
+bun script/qa/live-deployment-qa.mjs
+
+Result:
+exit code 0
+PASS live login, persisted Todo, PWA, mobile and desktop
+
+Visual review:
+- live/phone-small.png: PASS
+- live/phone.png: PASS
+- live/tablet.png: PASS
+- live/desktop-small.png: PASS
+- live/desktop-wide.png: PASS
+
+Binary decision: PASS for live C001, C002 and C003.

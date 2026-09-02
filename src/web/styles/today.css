@@ -32,8 +32,10 @@
 
 .task__label {
 	flex: 1;
+	min-width: 0;
 	font: var(--text-task);
 	color: var(--ink-soft);
+	overflow-wrap: anywhere;
 	transition: color var(--speed-fast);
 }
 
@@ -66,11 +68,13 @@
 	display: flex;
 	align-items: center;
 	gap: var(--space-3);
+	min-width: 0;
 	padding: var(--space-1) 0;
 }
 
 .task-inline input {
 	flex: 1;
+	min-width: 0;
 	padding: var(--space-2) var(--space-3);
 	border: 1.5px solid var(--violet);
 	border-radius: var(--radius-sm);
@@ -108,6 +112,8 @@
 .home__grid {
 	display: grid;
 	gap: var(--space-6);
+	width: 100%;
+	min-width: 0;
 }
 
 .home__grid .home__month {
@@ -116,7 +122,7 @@
 
 @media (min-width: 1024px) {
 	.home__grid {
-		grid-template-columns: 360px minmax(0, 1fr);
+		grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
 		align-items: start;
 	}
 
@@ -125,4 +131,11 @@
 		position: sticky;
 		top: 88px;
 	}
+}
+
+.home__shortcuts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	margin-top: var(--space-4);
 }

@@ -69,7 +69,7 @@ export function PlannerHome({
 					onRoutineToggle={onToggleRoutine}
 					onCreateCategory={onCreateCategory}
 				/>
-				<div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
+				<div className="home__shortcuts">
 					<button type="button" className="btn-ghost" onClick={() => onOpen("diary")}>
 						<BookOpen size={14} aria-hidden="true" />
 						일기

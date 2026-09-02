@@ -1,0 +1,21 @@
+RED — mass-ulw touch-target and direct-layout audit
+
+Command:
+bun script/qa/responsive-layout-qa.mjs
+
+Result:
+exit code 1
+
+Responsive layout QA failed:
+- phone-small: navigation items 1 through 8 touch targets are below 44px
+- phone-small: date controls 1 through 4 touch targets are below 44px
+- phone: date controls 1 through 4 touch targets are below 44px
+
+The strengthened QA also checked and passed:
+- exactly eight navigation items
+- two-sided date title/control viewport bounds
+- 42 calendar cells within calendar grid bounds
+- calendar internal scroll width
+- desktop rail/content non-intersection
+
+Binary decision: FAIL for the mass-ulw C002 touch-target blocker.

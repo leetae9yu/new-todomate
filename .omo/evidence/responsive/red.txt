@@ -1,0 +1,26 @@
+RED — responsive layout regression, captured before production CSS changes
+
+Command:
+bun script/qa/responsive-layout-qa.mjs
+
+Result:
+exit code 1
+
+Responsive layout QA failed:
+- phone-small: document width 366 exceeds 320
+- phone-small: navigation item 7 is clipped
+- phone-small: navigation item 8 is clipped
+- phone-small: date controls exceed viewport
+- phone: navigation item 8 is clipped
+- phone: date controls exceed viewport
+- tablet: date controls exceed viewport
+- desktop-small: date controls exceed viewport
+- desktop-small: desktop rail covers the brand
+- desktop-small: planner grid is offset from date navigation
+- desktop-small: planner grid exceeds usable desktop width
+- desktop-wide: date controls exceed viewport
+- desktop-wide: desktop rail covers the brand
+- desktop-wide: planner grid is offset from date navigation
+- desktop-wide: planner grid exceeds usable desktop width
+
+Binary decision: FAIL for C001 and C002.

@@ -5,12 +5,14 @@
 .calendar {
 	display: grid;
 	gap: var(--space-4);
+	min-width: 0;
 }
 
 .calendar__grid {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	gap: var(--space-2);
+	min-width: 0;
 }
 
 .calendar__head {
@@ -36,6 +38,7 @@
 
 .calendar__day {
 	min-height: 72px;
+	min-width: 0;
 	padding: var(--space-1);
 	border-radius: var(--radius-sm);
 	text-align: center;
@@ -111,4 +114,21 @@
 .calendar__moji {
 	font-size: 1rem;
 	line-height: 1.1;
+}
+
+@media (max-width: 480px) {
+	.calendar,
+	.calendar__grid,
+	.calendar__head {
+		gap: 2px;
+	}
+
+	.calendar__day {
+		min-height: 52px;
+		padding-inline: 2px;
+	}
+
+	.calendar__chips {
+		display: none;
+	}
 }

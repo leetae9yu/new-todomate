@@ -1,0 +1,32 @@
+GREEN — local responsive layout
+
+Command:
+bun script/qa/responsive-layout-qa.mjs
+
+Result:
+exit code 0
+PASS responsive layout at 320, 390, 768, 1024, 1440px
+
+Verified assertions:
+- document scroll width equals viewport client width
+- exactly eight navigation items remain inside the viewport
+- mobile navigation and date controls meet 44px touch targets
+- date title and controls do not overlap
+- date controls remain inside the viewport
+- all 42 calendar cells remain inside a non-overflowing calendar grid
+- desktop rail does not intersect the content plane
+- desktop rail clears the brand by at least 16px
+- desktop planner grid aligns with profile navigation within 2px
+- desktop planner grid remains inside the usable viewport
+
+Artifacts:
+- phone-small.png (320x568)
+- phone.png (390x844)
+- tablet.png (768x1024)
+- desktop-small.png (1024x768)
+- desktop-wide.png (1440x1000)
+
+Additional RED:
+- red-touch.txt records the mass-ulw touch-target blocker before its CSS fix.
+
+Binary decision: PASS for local C001, C002 and desktop layout portion of C003.

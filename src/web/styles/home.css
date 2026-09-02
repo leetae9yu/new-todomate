@@ -6,6 +6,11 @@
 	display: flex;
 	align-items: center;
 	gap: var(--space-3);
+	min-width: 0;
+}
+
+.profile__text {
+	min-width: 0;
 }
 
 .profile__text strong {
@@ -16,6 +21,9 @@
 	margin: 0;
 	color: var(--muted);
 	font: var(--text-meta);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .date-head {
@@ -24,6 +32,7 @@
 	justify-content: space-between;
 	gap: var(--space-4);
 	margin: var(--space-4) 0 var(--space-3);
+	min-width: 0;
 }
 
 .date-head__title {
@@ -56,6 +65,7 @@
 	display: flex;
 	align-items: center;
 	gap: var(--space-2);
+	flex-shrink: 0;
 }
 
 .date-head__controls .icon-btn svg {
@@ -66,6 +76,7 @@
 @media (max-width: 480px) {
 	.date-head {
 		gap: var(--space-2);
+		flex-wrap: wrap;
 	}
 
 	.date-head h2 {
@@ -73,7 +84,8 @@
 	}
 
 	.date-head__controls {
-		gap: 2px;
+		gap: var(--space-1);
+		margin-left: auto;
 	}
 }
 
@@ -82,12 +94,15 @@
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	gap: var(--space-1);
+	min-width: 0;
 }
 
 .week-strip__day {
 	display: grid;
 	justify-items: center;
 	gap: var(--space-1);
+	width: 100%;
+	min-width: 0;
 	padding: var(--space-2) 0;
 	border-radius: var(--radius-sm);
 	transition: background var(--speed-fast);
