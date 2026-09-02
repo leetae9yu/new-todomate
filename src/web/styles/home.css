@@ -30,6 +30,7 @@
 	display: flex;
 	align-items: center;
 	gap: var(--space-3);
+	min-width: 0;
 }
 
 .date-badge {
@@ -48,6 +49,7 @@
 .date-head h2 {
 	margin: 0;
 	font: var(--text-title);
+	white-space: nowrap;
 }
 
 .date-head__controls {
@@ -59,6 +61,20 @@
 .date-head__controls .icon-btn svg {
 	width: 18px;
 	height: 18px;
+}
+
+@media (max-width: 480px) {
+	.date-head {
+		gap: var(--space-2);
+	}
+
+	.date-head h2 {
+		font-size: 0.9rem;
+	}
+
+	.date-head__controls {
+		gap: 2px;
+	}
 }
 
 /* Week strip */

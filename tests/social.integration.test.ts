@@ -8,11 +8,11 @@ describe("private group social API", () => {
 
 	beforeAll(async () => {
 		harness = await createSocialTestApp();
-	});
+	}, 20_000);
 
 	afterAll(async () => {
 		await harness.close();
-	});
+	}, 20_000);
 
 	test("shares only group-visible completed work and protects owner mutations", async () => {
 		const groupResponse = await harness.demo("/api/groups", {

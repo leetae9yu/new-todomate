@@ -20,11 +20,11 @@ describe("extended personal planning tools", () => {
 		expect(categoryResponse.status).toBe(201);
 		const category = (await categoryResponse.json()) as { id: string };
 		categoryId = category.id;
-	});
+	}, 20_000);
 
 	afterAll(async () => {
 		await harness.close();
-	});
+	}, 20_000);
 
 	test("moves undated backlog work onto the calendar", async () => {
 		const created = await harness.request("/api/tasks", {

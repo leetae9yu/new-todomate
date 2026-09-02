@@ -1,0 +1,22 @@
+Command: bun test tests/pwa.test.ts
+
+GREEN:
+- standalone manifest configuration: PASS
+- service worker registration contract: PASS
+- original SVG install icon: PASS
+- Korean primary navigation labels: PASS
+
+2 tests passed, 0 failed, 10 assertions.
+
+Supporting gates:
+- bun run typecheck: exit 0
+- bun run lint: 108 files, no diagnostics
+- bun run build: exit 0
+- dist/manifest.webmanifest generated
+- dist/sw.js generated
+- dist/workbox-9c191d2f.js generated
+- source LSP diagnostics: 0 errors
+
+Implementation decision:
+The image-generation service returned HTTP 404, so the icon contract uses an original vector
+SVG with manifest sizes="any", which is supported by the Web App Manifest icon model.

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="new todomate">
+  <rect width="512" height="512" rx="112" fill="#f7f5ff"/>
+  <g fill="#6c4dff">
+    <circle cx="256" cy="164" r="92"/>
+    <circle cx="174" cy="256" r="92"/>
+    <circle cx="338" cy="256" r="92"/>
+    <circle cx="256" cy="338" r="92"/>
+  </g>
+  <path d="m242 310 43 43 92-112" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="34"/>
+</svg>

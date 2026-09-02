@@ -1,0 +1,7 @@
+Command: bun test tests/pwa.test.ts
+
+RED captured before production PWA changes:
+- Vite config did not contain VitePWA.
+- public/icon-192.png did not exist.
+
+0 pass, 2 fail, command exit 1.

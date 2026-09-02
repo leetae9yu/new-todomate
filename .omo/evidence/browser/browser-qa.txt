@@ -1,0 +1,7 @@
+PASS login demo
+PASS planner create/complete/uncomplete
+PASS calendar and weekday routine
+PASS mobile responsive manifest service-worker
+PASS desktop responsive layout
+PASS login friend
+PASS two-context group privacy reaction notification

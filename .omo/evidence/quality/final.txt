@@ -1,0 +1,28 @@
+Final release gates
+
+- bun test: 17 pass, 0 fail, 106 assertions, 6 files
+- bun run typecheck: exit 0
+- bun run lint: 112 files checked, no diagnostics
+- bun run build: exit 0
+- PWA build: dist/manifest.webmanifest, dist/sw.js, dist/workbox-9c191d2f.js
+- src LSP diagnostics: 0 errors across 29 files
+- tests LSP diagnostics: 0 errors across 9 files
+- git diff --check: exit 0
+
+Flaky-test root cause and fix
+
+- Isolated auth integration: PASS
+- Full serialized suite (`bun test --max-concurrency=1`): 17 PASS
+- Default full suite initially exceeded Bun's 5-second hook timeout while multiple PGlite WASM
+  databases initialized concurrently.
+- Setup/teardown hooks now use an explicit bounded 20-second timeout; assertions and behavior are
+  unchanged.
+- Exact default `bun test` after fix: 17 PASS, 0 FAIL.
+
+Browser QA
+
+- planner screenshot: .omo/evidence/planner/planner-mobile.png
+- social screenshots: .omo/evidence/social/social-friend.png and social-notification.png
+- responsive screenshots: .omo/evidence/visual/mobile.png and desktop.png
+- transcript: .omo/evidence/browser/browser-qa.txt
+- services/browser contexts closed; ports 4173 and 8787 verified free

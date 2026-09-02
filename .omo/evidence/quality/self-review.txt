@@ -1,0 +1,34 @@
+HEAVY self-review
+
+Scope reconstruction
+- approved credential auth with secure cookies and disabled-account denial
+- dated planner, categories, local-date handling, routines and occurrences
+- backlog, timer, diary, statistics
+- private groups, invites, member roles and feed privacy
+- completion-only reactions and deep-linked notifications
+- profile/settings
+- installable responsive PWA
+- local browser QA and GitHub delivery
+
+Evidence audit
+- Auth RED/GREEN + live curl evidence present.
+- Planner RED/GREEN integration evidence present.
+- Social RED/GREEN integration evidence present.
+- PWA RED/GREEN manifest/service-worker evidence present.
+- Real browser screenshots and transcript present for planner, mobile/desktop, friend feed, and
+  notifications.
+- Browser contexts and API/preview servers closed; ports 4173 and 8787 free.
+
+Code-quality audit
+- No localStorage/sessionStorage auth tokens.
+- No service_role key or Authorization secret in client/source.
+- No `as any`, ts-ignore, skipped tests, or focused tests.
+- Every TS/TSX/JS/MJS module is <=250 LOC.
+- 17 tests pass with 106 assertions.
+- Typecheck, Biome lint, PWA build, and LSP diagnostics pass.
+
+Flaky-test audit
+- Failure reproduced only under concurrent PGlite initialization.
+- Isolated and serialized runs passed.
+- Bounded 20-second setup/teardown hook timeouts preserve assertions and make exact `bun test`
+  reliable.

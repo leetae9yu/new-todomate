@@ -19,11 +19,11 @@ describe("approved credential authentication", () => {
 	beforeAll(async () => {
 		harness = await createAuthTestApp();
 		app = harness.app;
-	});
+	}, 20_000);
 
 	afterAll(async () => {
 		await harness.close();
-	});
+	}, 20_000);
 
 	test("approved account receives a secure session cookie", async () => {
 		const response = await signIn(app, approvedCredentials);
@@ -86,7 +86,7 @@ describe("local authentication storage", () => {
 		} finally {
 			await rm(temporaryRoot, { recursive: true, force: true });
 		}
-	});
+	}, 20_000);
 });
 
 function signIn(app: Hono, credentials: { username: string; password: string }) {

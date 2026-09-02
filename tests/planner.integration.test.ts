@@ -8,11 +8,11 @@ describe("personal planner API", () => {
 
 	beforeAll(async () => {
 		harness = await createPlannerTestApp();
-	});
+	}, 20_000);
 
 	afterAll(async () => {
 		await harness.close();
-	});
+	}, 20_000);
 
 	test("creates categories and manages a dated todo lifecycle", async () => {
 		const categoryResponse = await harness.request("/api/categories", {

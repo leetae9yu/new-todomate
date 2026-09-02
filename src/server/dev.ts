@@ -22,6 +22,15 @@ if (!existingDemo) {
 	});
 }
 
+if (process.env.SEED_QA === "1" && !(await auth.findByUsername("friend"))) {
+	await auth.seedAccount({
+		username: "friend",
+		password: "friend-pass",
+		name: "친구",
+		status: "active",
+	});
+}
+
 const app = createApp({ auth });
 const server = Bun.serve({
 	fetch: app.fetch,
