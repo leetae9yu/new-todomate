@@ -4,6 +4,7 @@ dist/
 .env
 .env.*
 !.env.example
+.neon
 playwright-report/
 test-results/
 .omo/senpi-task/
