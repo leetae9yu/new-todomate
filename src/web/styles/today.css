@@ -11,6 +11,23 @@
 	align-content: start;
 }
 
+.planner-loading__category {
+	height: 36px;
+}
+
+.planner-loading__task {
+	width: 72%;
+	height: 40px;
+}
+
+.planner-loading__input {
+	height: 48px;
+}
+
+.planner-loading__action {
+	height: 40px;
+}
+
 .tasklist {
 	display: grid;
 	gap: 2px;

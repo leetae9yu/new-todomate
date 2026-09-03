@@ -11,7 +11,6 @@ import { PlannerHome } from "./components/planner-home";
 import { PlannerSocialViews } from "./components/planner-social-views";
 import { RoutineManagementScreen } from "./components/routine-management";
 import { RoutinesScreen } from "./components/routines";
-import { Splash } from "./components/splash";
 import { StatsScreen } from "./components/stats";
 import { TimerScreen } from "./components/timer";
 import {
@@ -135,16 +134,6 @@ export function PlannerShell({ username }: { username: string }) {
 		timer.begin(taskId);
 		setView("timer");
 	};
-
-	const [splashDone, setSplashDone] = useState(false);
-	useEffect(() => {
-		const timer = window.setTimeout(() => setSplashDone(true), 1700);
-		return () => window.clearTimeout(timer);
-	}, []);
-
-	if (!splashDone) {
-		return <Splash />;
-	}
 
 	return (
 		<div className="shell shell__with-rail">
@@ -313,9 +302,9 @@ export function PlannerShell({ username }: { username: string }) {
 				items={TABS}
 				view={
 					view === "diary" ||
-					view === "timer" ||
-					view === "category-management" ||
-					view === "routine-management"
+						view === "timer" ||
+						view === "category-management" ||
+						view === "routine-management"
 						? "home"
 						: view
 				}

@@ -38,14 +38,18 @@ export function TodayScreen({
 }: TodayScreenProps) {
 	if (loading) {
 		return (
-			<div className="feed-groups" aria-busy="true">
-				{[1, 2].map((group) => (
-					<section key={group} className="feed-group">
-						<span className="skeleton" style={{ width: 160 }} />
-						<span className="skeleton" />
-						<span className="skeleton" style={{ width: "72%" }} />
-					</section>
-				))}
+			<div
+				className="feed-groups planner-loading"
+				role="status"
+				aria-busy="true"
+				aria-label="할 일 불러오는 중"
+			>
+				<section className="feed-group" aria-hidden="true">
+					<span className="skeleton planner-loading__category" />
+					<span className="skeleton planner-loading__task" />
+					<span className="skeleton planner-loading__input" />
+				</section>
+				<span className="skeleton planner-loading__action" aria-hidden="true" />
 			</div>
 		);
 	}

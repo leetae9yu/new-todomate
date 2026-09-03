@@ -72,16 +72,15 @@ export function usePlannerMutations(date: string) {
 /* ------------------------------ categories ------------------------------ */
 
 export function useCategories(enabled: boolean) {
+	const date = todayKey();
 	return useQuery({
-		queryKey: ["categories"],
-		queryFn: async () => {
-			const planner = await api.planner(todayKey());
-			return {
-				categories: planner.categories.map(
-					({ tasks: _tasks, routines: _routines, ...category }) => category,
-				),
-			};
-		},
+		queryKey: ["planner", date],
+		queryFn: () => api.planner(date),
+		select: (planner) => ({
+			categories: planner.categories.map(
+				({ tasks: _tasks, routines: _routines, ...category }) => category,
+			),
+		}),
 		enabled,
 	});
 }
