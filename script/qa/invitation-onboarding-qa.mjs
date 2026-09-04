@@ -97,7 +97,7 @@ try {
 	if (!targetGroup) {
 		const createdGroup = await json(owner, "/api/groups", {
 			method: "POST",
-			body: JSON.stringify({ name: `초대 QA ${suffix}` }),
+			body: JSON.stringify({ name: `실시간 초대 테스트 ${suffix}` }),
 		});
 		expect(createdGroup.status).toBe(201);
 		targetGroup = createdGroup.body;

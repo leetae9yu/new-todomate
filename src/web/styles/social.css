@@ -242,3 +242,13 @@
 	font: var(--text-caption);
 	font-weight: 800;
 }
+
+@media (max-width: 480px) {
+	.invite-heading {
+		flex-direction: column;
+	}
+
+	.invite-heading > span {
+		white-space: nowrap;
+	}
+}
