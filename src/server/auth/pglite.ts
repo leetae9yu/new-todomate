@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/pglite";
 import { AUTH_MIGRATION_SQL } from "../db/auth-migration";
 import { CHAT_MIGRATION_SQL } from "../db/chat-migration";
+import { INVITATION_MIGRATION_SQL } from "../db/invitation-migration";
 import { PLANNER_MIGRATION_SQL } from "../db/planner-migration";
 import * as schema from "../db/schema";
 import { SOCIAL_MIGRATION_SQL } from "../db/social-migration";
@@ -30,6 +31,7 @@ export async function createPgliteAuthRuntime({
 	await client.exec(PLANNER_MIGRATION_SQL);
 	await client.exec(SOCIAL_MIGRATION_SQL);
 	await client.exec(CHAT_MIGRATION_SQL);
+	await client.exec(INVITATION_MIGRATION_SQL);
 
 	const database = drizzle(client, { schema });
 	const runtime = createAuthRuntime({
@@ -60,9 +62,9 @@ export async function createPgliteAuthRuntime({
 				const parsedStatus = accountStatusSchema.safeParse(record.status);
 				return parsedStatus.success
 					? {
-							id: record.id,
-							status: parsedStatus.data,
-						}
+						id: record.id,
+						status: parsedStatus.data,
+					}
 					: null;
 			},
 			setStatus: async (accountUsername, status) => {

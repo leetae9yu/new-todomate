@@ -79,6 +79,19 @@ export type PlannerSettings = {
 	notificationsEnabled: boolean;
 };
 
+export type InvitationPreview = {
+	group: { id: string; name: string };
+	inviter: { name: string };
+	expiresAt: string;
+};
+
+export type InvitationSignupInput = {
+	code: string;
+	username: string;
+	password: string;
+	name: string;
+};
+
 export type RoutineInput = {
 	categoryId: string;
 	title: string;
@@ -159,6 +172,20 @@ export async function requestJson<T>(path: string, init: RequestInit = {}): Prom
 export const api = {
 	/* ---- auth ---- */
 	session: () => requestJson<{ user: User }>("/api/auth/get-session"),
+	invitationPreview: (code: string) =>
+		requestJson<InvitationPreview>("/api/invitations/preview", {
+			method: "POST",
+			body: JSON.stringify({ code }),
+		}),
+	invitationSignup: (body: InvitationSignupInput) =>
+		requestJson<{
+			user: User;
+			group: { id: string };
+			invitations: { limit: number; remaining: number };
+		}>("/api/invitations/signup", {
+			method: "POST",
+			body: JSON.stringify(body),
+		}),
 	signIn: (username: string, password: string) =>
 		requestJson<{ user: User }>("/api/auth/sign-in", {
 			method: "POST",

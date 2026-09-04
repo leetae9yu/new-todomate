@@ -1,4 +1,14 @@
-import { boolean, index, jsonb, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import {
+	boolean,
+	index,
+	integer,
+	jsonb,
+	pgTable,
+	text,
+	timestamp,
+	uniqueIndex,
+} from "drizzle-orm/pg-core";
 import { user } from "./auth";
 import { task } from "./planner";
 
@@ -44,12 +54,32 @@ export const groupInvite = pgTable(
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
 		token: text("token").notNull(),
+		codeHash: text("code_hash"),
 		status: text("status").default("pending").notNull(),
+		inviteSlot: integer("invite_slot"),
+		claimId: text("claim_id"),
+		claimedUsername: text("claimed_username"),
+		claimedAt: timestamp("claimed_at", { withTimezone: true }),
 		respondedBy: text("responded_by").references(() => user.id, { onDelete: "set null" }),
 		respondedAt: timestamp("responded_at", { withTimezone: true }),
+		expiresAt: timestamp("expires_at", { withTimezone: true })
+			.default(sql`now() + interval '7 days'`)
+			.notNull(),
 		createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 	},
-	(table) => [uniqueIndex("group_invite_token_uidx").on(table.token)],
+	(table) => [
+		uniqueIndex("group_invite_token_uidx").on(table.token),
+		uniqueIndex("group_invite_code_hash_uidx").on(table.codeHash),
+		index("group_invite_creator_status_idx").on(table.createdBy, table.status, table.expiresAt),
+		uniqueIndex("group_invite_creator_slot_uidx")
+			.on(table.createdBy, table.inviteSlot)
+			.where(
+				sql`${table.inviteSlot} IS NOT NULL AND ${table.status} IN ('pending', 'provisioning', 'accepted')`,
+			),
+		uniqueIndex("group_invite_claimed_username_uidx")
+			.on(table.claimedUsername)
+			.where(sql`${table.status} = 'provisioning'`),
+	],
 );
 
 export const taskReaction = pgTable(

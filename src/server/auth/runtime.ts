@@ -5,7 +5,7 @@ import { username } from "better-auth/plugins";
 import { z } from "zod";
 import { authSchema } from "../db/schema";
 
-export const accountStatusSchema = z.enum(["active", "disabled"]);
+export const accountStatusSchema = z.enum(["active", "disabled", "provisioning"]);
 export type AccountStatus = z.infer<typeof accountStatusSchema>;
 
 type AccountStatusRecord = {
@@ -63,7 +63,7 @@ export function createAuthRuntime({ baseURL, secret, store }: CreateAuthRuntimeO
 				status: {
 					type: "string",
 					required: true,
-					defaultValue: "active",
+					defaultValue: "provisioning",
 					input: false,
 				},
 			},
@@ -85,23 +85,38 @@ export function createAuthRuntime({ baseURL, secret, store }: CreateAuthRuntimeO
 		},
 	});
 
+	const createAccount = async ({
+		username: accountUsername,
+		password,
+		name,
+		status,
+	}: SeedAccountInput) => {
+		const result = await auth.api.signUpEmail({
+			body: {
+				email: `${accountUsername}@new-todomate.test`,
+				password,
+				name,
+				username: accountUsername,
+				displayUsername: name,
+			},
+		});
+		await store.setStatus(accountUsername, status);
+		return { id: result.user.id, username: accountUsername, name, status };
+	};
+
 	return {
 		handler: (request: Request) => auth.handler(request),
-		getSession: (headers: Headers) => auth.api.getSession({ headers }),
+		getSession: async (headers: Headers) => {
+			const session = await auth.api.getSession({ headers });
+			if (!session?.user.username) return null;
+			const account = await store.findByUsername(session.user.username);
+			return account?.status === "active" ? session : null;
+		},
 		planner: store.planner,
 		findByUsername: store.findByUsername,
-		seedAccount: async ({ username: accountUsername, password, name, status }: SeedAccountInput) => {
-			await auth.api.signUpEmail({
-				body: {
-					email: `${accountUsername}@new-todomate.test`,
-					password,
-					name,
-					username: accountUsername,
-					displayUsername: name,
-				},
-			});
-
-			await store.setStatus(accountUsername, status);
+		createAccount,
+		seedAccount: async (input: SeedAccountInput) => {
+			await createAccount(input);
 		},
 	};
 }

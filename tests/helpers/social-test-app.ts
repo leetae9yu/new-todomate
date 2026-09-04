@@ -25,6 +25,27 @@ export async function createSocialTestApp() {
 	await auth.seedAccount({ ...friendCredentials, name: "친구", status: "active" });
 	const app = createApp({ auth });
 
+	const request = (path: string, init: JsonRequestInit = {}) =>
+		app.request(`https://todomate.test${path}`, {
+			method: init.method ?? "GET",
+			...(init.body === undefined
+				? {}
+				: {
+					headers: { "content-type": "application/json" },
+					body: JSON.stringify(init.body),
+				}),
+		});
+
+	const withCookie = (cookie: string) => (path: string, init: JsonRequestInit = {}) =>
+		app.request(`https://todomate.test${path}`, {
+			method: init.method ?? "GET",
+			headers: {
+				cookie,
+				...(init.body === undefined ? {} : { "content-type": "application/json" }),
+			},
+			...(init.body === undefined ? {} : { body: JSON.stringify(init.body) }),
+		});
+
 	async function as(username: string, password: string) {
 		const signIn = await app.request("https://todomate.test/api/auth/sign-in", {
 			method: "POST",
@@ -33,20 +54,15 @@ export async function createSocialTestApp() {
 		});
 		const cookie = signIn.headers.get("set-cookie")?.split(";")[0];
 		if (!cookie) throw new Error(`No session cookie for ${username}`);
-		return (path: string, init: JsonRequestInit = {}) =>
-			app.request(`https://todomate.test${path}`, {
-				method: init.method ?? "GET",
-				headers: {
-					cookie,
-					...(init.body === undefined ? {} : { "content-type": "application/json" }),
-				},
-				...(init.body === undefined ? {} : { body: JSON.stringify(init.body) }),
-			});
+		return withCookie(cookie);
 	}
 
 	return {
 		demo: await as("demo", "demo-pass"),
 		friend: await as(friendCredentials.username, friendCredentials.password),
+		request,
+		as,
+		withCookie,
 		close: auth.close,
 	};
 }

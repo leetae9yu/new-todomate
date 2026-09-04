@@ -83,6 +83,9 @@ export function createApp(options: CreateAppOptions = {}) {
 		);
 	});
 
+	app.get("/api/auth/get-session", async (context) =>
+		context.json(await auth.getSession(context.req.raw.headers)),
+	);
 	app.all("/api/auth/sign-up/*", (context) => context.notFound());
 	app.all("/api/auth/*", (context) => auth.handler(context.req.raw));
 	return app;

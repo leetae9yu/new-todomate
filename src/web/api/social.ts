@@ -22,6 +22,20 @@ export type SocialNotification = {
 	createdAt: string;
 	deepLink?: { taskId: string; groupId: string };
 };
+export type InvitationSummary = {
+	id: string;
+	expiresAt: string;
+	slot: number;
+	groupId: string;
+	groupName: string;
+};
+export type InvitationIssue = {
+	id: string;
+	code: string;
+	token: string;
+	expiresAt: string;
+	remaining: number;
+};
 
 export const socialApi = {
 	groups: () => requestJson<{ groups: SocialGroup[] }>("/api/groups"),
@@ -31,10 +45,16 @@ export const socialApi = {
 			body: JSON.stringify({ name }),
 		}),
 	createInvite: (groupId: string) =>
-		requestJson<{ token: string }>(`/api/groups/${groupId}/invites`, {
+		requestJson<InvitationIssue>(`/api/groups/${groupId}/invites`, {
 			method: "POST",
 			body: "{}",
 		}),
+	invitations: () =>
+		requestJson<{ limit: number; remaining: number; invitations: InvitationSummary[] }>(
+			"/api/invitations",
+		),
+	revokeInvitation: (id: string) =>
+		requestJson<void>(`/api/invitations/${id}`, { method: "DELETE" }),
 	respondInvite: (token: string, accept: boolean) =>
 		requestJson<{ groupId: string; role: SocialGroup["role"] }>(
 			`/api/invites/${token}/respond`,

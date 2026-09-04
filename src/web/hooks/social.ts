@@ -19,6 +19,11 @@ export function useSocial(date: string, enabled: boolean) {
 		queryFn: () => socialApi.groupFeed(selectedGroupId ?? "", date),
 		enabled: enabled && selectedGroupId !== null,
 	});
+	const invitations = useQuery({
+		queryKey: ["invitations"],
+		queryFn: socialApi.invitations,
+		enabled,
+	});
 	const refreshGroups = () => queryClient.invalidateQueries({ queryKey: ["groups"] });
 	const refreshFeed = () =>
 		queryClient.invalidateQueries({ queryKey: ["group-feed", selectedGroupId, date] });
@@ -27,9 +32,17 @@ export function useSocial(date: string, enabled: boolean) {
 		groups,
 		members,
 		feed,
+		invitations,
 		selectedGroupId,
 		createGroup: useMutation({ mutationFn: socialApi.createGroup, onSuccess: refreshGroups }),
-		createInvite: useMutation({ mutationFn: socialApi.createInvite }),
+		createInvite: useMutation({
+			mutationFn: socialApi.createInvite,
+			onSuccess: () => queryClient.invalidateQueries({ queryKey: ["invitations"] }),
+		}),
+		revokeInvitation: useMutation({
+			mutationFn: socialApi.revokeInvitation,
+			onSuccess: () => queryClient.invalidateQueries({ queryKey: ["invitations"] }),
+		}),
 		respondInvite: useMutation({
 			mutationFn: ({ token, accept }: { token: string; accept: boolean }) =>
 				socialApi.respondInvite(token, accept),

@@ -12,8 +12,10 @@ export function SocialScreen({ social, chat }: { social: ReturnTypeOfUseSocial; 
 	const [mode, setMode] = useState<"feed" | "chat">("feed");
 	const [groupName, setGroupName] = useState("");
 	const [inviteToken, setInviteToken] = useState("");
-	const [issuedToken, setIssuedToken] = useState("");
+	const [issuedLink, setIssuedLink] = useState("");
 	const groups = social.groups.data?.groups ?? [];
+	const invitationSummary = social.invitations.data;
+	const remainingInvitations = invitationSummary?.remaining;
 	const unreadCount =
 		chat.rooms.data?.rooms.reduce((total, room) => total + room.unreadCount, 0) ?? 0;
 
@@ -90,23 +92,65 @@ export function SocialScreen({ social, chat }: { social: ReturnTypeOfUseSocial; 
 								))}
 							</ul>
 							<div className="social-card">
-								<strong>{groups[0]?.name}</strong>
+								<div className="invite-heading">
+									<div>
+										<strong>{groups[0]?.name}</strong>
+										<small>
+											초대권 {remainingInvitations ?? "…"}/{invitationSummary?.limit ?? 3}
+										</small>
+									</div>
+									<span>코드당 1명 · 7일간 유효</span>
+								</div>
 								<button
 									type="button"
 									className="btn-ghost"
 									onClick={() =>
 										social.createInvite.mutate(groups[0]?.id ?? "", {
-											onSuccess: (result) => setIssuedToken(result.token),
+											onSuccess: (result) =>
+												setIssuedLink(
+													`${window.location.origin}/?invite=${encodeURIComponent(result.code)}`,
+												),
 										})
 									}
+									disabled={
+										social.createInvite.isPending ||
+										remainingInvitations === undefined ||
+										remainingInvitations === 0
+									}
 								>
-									초대 링크 만들기
+									{remainingInvitations === 0
+										? "초대권을 모두 사용했어요"
+										: "초대 링크 만들기"}
 								</button>
-								{issuedToken ? (
-									<code className="invite-token">
+								{issuedLink ? (
+									<button
+										type="button"
+										className="invite-token"
+										onClick={() => void navigator.clipboard.writeText(issuedLink)}
+										aria-label="초대 링크 복사"
+									>
 										<Copy size={14} aria-hidden="true" />
-										{issuedToken}
-									</code>
+										{issuedLink}
+									</button>
+								) : null}
+								{invitationSummary?.invitations.length ? (
+									<ul className="invite-list" aria-label="사용 가능한 초대">
+										{invitationSummary.invitations.map((invitation) => (
+											<li key={invitation.id}>
+												<span>
+													{invitation.groupName} ·{" "}
+													{new Date(invitation.expiresAt).toLocaleDateString("ko-KR")}까지
+												</span>
+												<button
+													type="button"
+													onClick={() => social.revokeInvitation.mutate(invitation.id)}
+													disabled={social.revokeInvitation.isPending}
+												>
+													취소
+												</button>
+											</li>
+										))}
+									</ul>
 								) : null}
 							</div>
 							<div className="social-feed">

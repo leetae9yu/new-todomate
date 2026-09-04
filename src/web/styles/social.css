@@ -62,9 +62,47 @@
 	display: flex;
 	align-items: center;
 	gap: var(--space-2);
+	width: 100%;
 	padding: var(--space-2);
 	overflow-wrap: anywhere;
 	color: var(--violet);
+	text-align: left;
+}
+
+.invite-heading {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-3);
+}
+
+.invite-heading div,
+.invite-list {
+	display: grid;
+	gap: var(--space-1);
+}
+
+.invite-heading small,
+.invite-heading > span,
+.invite-list {
+	color: var(--muted);
+	font: var(--text-meta);
+}
+
+.invite-list li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-3);
+	padding-top: var(--space-2);
+	border-top: 1px solid var(--surface);
+}
+
+.invite-list button {
+	flex-shrink: 0;
+	color: var(--danger);
+	font: var(--text-meta);
+	font-weight: 700;
 }
 
 .social-feed,

@@ -39,7 +39,7 @@ describe("private group social API", () => {
 		const memberInvite = await harness.friend(`/api/groups/${group.id}/invites`, {
 			method: "POST",
 		});
-		expect(memberInvite.status).toBe(403);
+		expect(memberInvite.status).toBe(201);
 
 		const members = await harness.demo(`/api/groups/${group.id}/members`);
 		expect(members.status).toBe(200);
