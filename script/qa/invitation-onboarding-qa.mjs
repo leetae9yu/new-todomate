@@ -47,6 +47,7 @@ async function signIn(page, username, password) {
 async function openSocial(page) {
 	await page.getByRole("button", { name: "친구 피드", exact: true }).click();
 	await page.getByRole("heading", { name: "친구 피드", exact: true }).waitFor();
+	await page.evaluate(() => window.scrollTo(0, 0));
 }
 
 async function createInvitationLink(page) {
@@ -86,6 +87,7 @@ async function signUp(page, link, username, name) {
 	await page.getByRole("button", { name: "가입하고 그룹 참여", exact: true }).click();
 	expect((await signupResponse).status()).toBe(201);
 	await page.locator(".shell").waitFor({ state: "visible", timeout: 30_000 });
+	await page.evaluate(() => window.scrollTo(0, 0));
 }
 
 try {
@@ -117,8 +119,10 @@ try {
 	);
 	await openSocial(firstMember);
 	await expect(firstMember.getByText("초대권 3/3", { exact: true })).toBeVisible();
+	await firstMember.locator(".avatar-strip").waitFor({ state: "visible" });
 	await expect(firstMember.locator(".tabbar button")).toHaveCount(8);
 	if (evidenceDirectory) {
+		await firstMember.bringToFront();
 		await firstMember.screenshot({
 			path: `${evidenceDirectory}/new-member-three-invites.png`,
 			fullPage: false,
@@ -136,8 +140,10 @@ try {
 	await openSocial(secondMember);
 	await expect(secondMember.getByText(targetGroup.name, { exact: true })).toBeVisible();
 	await expect(secondMember.getByText("초대권 3/3", { exact: true })).toBeVisible();
+	await secondMember.locator(".avatar-strip").waitFor({ state: "visible" });
 	await expect(secondMember.locator(".tabbar button")).toHaveCount(8);
 	if (evidenceDirectory) {
+		await secondMember.bringToFront();
 		await secondMember.screenshot({
 			path: `${evidenceDirectory}/second-generation-member.png`,
 			fullPage: false,

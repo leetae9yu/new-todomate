@@ -136,6 +136,11 @@
 	flex-shrink: 0;
 }
 
+#signup-invite-code {
+	font-size: 0.6875rem;
+	letter-spacing: -0.015em;
+}
+
 .invitation-preview {
 	display: grid;
 	gap: var(--space-1);
