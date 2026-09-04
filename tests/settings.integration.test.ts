@@ -115,7 +115,7 @@ describe("settings and planner management API", () => {
 		expect(
 			(
 				(await freshPlanner.json()) as { categories: Array<{ id: string; position: number }> }
-			).categories.slice(0, 3),
+			).categories.slice(0, 3).map(({ id, position }) => ({ id, position })),
 		).toEqual([
 			{ id: third.id, position: 0 },
 			{ id: first.id, position: 1 },

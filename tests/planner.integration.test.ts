@@ -138,6 +138,32 @@ describe("personal planner API", () => {
 		expect(invalid.status).toBe(400);
 	});
 
+	test("returns complete category metadata on dates without planner items", async () => {
+		const category = await createCategory(harness, "모든 날짜 카테고리", "#8437FF");
+
+		const planner = await harness.request("/api/planner?date=2000-01-01");
+		expect(planner.status).toBe(200);
+		const body = (await planner.json()) as {
+			categories: Array<{
+				id: string;
+				name?: string;
+				color?: string;
+				visibility?: string;
+				position?: number;
+				tasks?: unknown[];
+			}>;
+		};
+
+		expect(body.categories.find(({ id }) => id === category.id)).toEqual({
+			id: category.id,
+			name: "모든 날짜 카테고리",
+			color: "#8437FF",
+			visibility: "private",
+			position: expect.any(Number),
+			tasks: [],
+		});
+	});
+
 	test("materializes daily, weekday, and monthly routines independently", async () => {
 		const category = await createCategory(harness, "루틴", "#FF5CB5");
 

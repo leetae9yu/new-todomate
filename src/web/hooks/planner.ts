@@ -4,6 +4,7 @@ import { todayKey } from "../api/dates";
 import type {
 	CategoryUpdateInput,
 	DiaryEntry,
+	PlannerDay,
 	PlannerSettings,
 	RoutineInput,
 	TimerState,
@@ -39,9 +40,26 @@ export function usePlanner(date: string, enabled: boolean) {
 	});
 }
 
+function updateTaskCompletion(planner: PlannerDay, id: string, completed: boolean): PlannerDay {
+	const updateTask = (task: PlannerDay["categories"][number]["tasks"][number]) =>
+		task.id === id ? { ...task, completed, completedAt: completed ? task.completedAt : null } : task;
+
+	return {
+		...planner,
+		categories: planner.categories.map((category) => ({
+			...category,
+			tasks: category.tasks.map(updateTask),
+		})),
+		overdue: completed
+			? planner.overdue.filter((task) => task.id !== id)
+			: planner.overdue.map(updateTask),
+	};
+}
+
 export function usePlannerMutations(date: string) {
 	const queryClient = useQueryClient();
-	const invalidate = () => queryClient.invalidateQueries({ queryKey: ["planner", date] });
+	const plannerKey = ["planner", date] as const;
+	const invalidate = () => queryClient.invalidateQueries({ queryKey: plannerKey });
 
 	const createTask = useMutation({
 		mutationFn: (body: { categoryId: string; title: string; date: string | null }) =>
@@ -63,7 +81,20 @@ export function usePlannerMutations(date: string) {
 	const setCompletion = useMutation({
 		mutationFn: ({ id, completed }: { id: string; completed: boolean }) =>
 			api.setCompletion(id, completed),
-		onSuccess: invalidate,
+		onMutate: async ({ id, completed }) => {
+			await queryClient.cancelQueries({ queryKey: plannerKey });
+			const previous = queryClient.getQueryData<PlannerDay>(plannerKey);
+			queryClient.setQueryData<PlannerDay>(plannerKey, (planner) =>
+				planner ? updateTaskCompletion(planner, id, completed) : planner,
+			);
+			return { previous };
+		},
+		onError: (_error, _variables, context) => {
+			if (context?.previous) {
+				queryClient.setQueryData(plannerKey, context.previous);
+			}
+		},
+		onSettled: invalidate,
 	});
 
 	return { createTask, updateTask, setCompletion };

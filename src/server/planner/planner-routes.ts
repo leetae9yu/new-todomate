@@ -47,21 +47,16 @@ export function installPlannerReadRoutes(app: Hono, auth: AuthRuntime) {
 			),
 		]);
 		const completedByRoutine = new Map(occurrences.map((row) => [String(row.routineId), row]));
-		const compactCategories = tasks.length === 0 && routineRows.length === 0;
 		return context.json({
 			date,
-			categories: categories.map((category) =>
-				compactCategories
-					? { id: category.id, position: Number(category.position) }
-					: {
-						id: category.id,
-						name: category.name,
-						color: category.color,
-						visibility: category.visibility,
-						position: Number(category.position),
-						tasks: tasks.filter((task) => task.categoryId === category.id).map(taskResponse),
-					},
-			),
+			categories: categories.map((category) => ({
+				id: category.id,
+				name: category.name,
+				color: category.color,
+				visibility: category.visibility,
+				position: Number(category.position),
+				tasks: tasks.filter((task) => task.categoryId === category.id).map(taskResponse),
+			})),
 			overdue: overdue.map(taskResponse),
 			routines: routineRows.filter((routine) => appliesOnDate(routine, date)).map((routine) => {
 				const occurrence = completedByRoutine.get(String(routine.id));
